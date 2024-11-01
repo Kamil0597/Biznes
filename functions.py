@@ -12,13 +12,14 @@ from bs4 import BeautifulSoup
 from config import products_category_tab
 
 def tmp(driver):
-
     tmp = 0
 
     page_source = driver.page_source
     soup = BeautifulSoup(page_source, 'html.parser')
 
     for product in soup.find_all('div', {'data-product-id': True}):
+        print(tmp)
+        tmp = tmp + 1
         try:
             # Pobieranie kategorii
             category = product.get('data-category', '').strip()
@@ -40,8 +41,6 @@ def tmp(driver):
                 save(attributes, category, name, price, img_url)
             else:
                 attributes = {}
-                print(tmp)
-                tmp = tmp + 1
 
 
         except Exception as e:
@@ -107,6 +106,64 @@ def open_product_and_get_data(product_url, driver):
     time.sleep(1)  # Opcjonalnie czekamy chwilę przed kolejną iteracją
 
     return attributes
+
+def generate_csv_for_categories_and_subcategories(driver):
+    with open('categories.csv', mode='w', newline='', encoding='utf-8') as category_file:
+
+        category_writer = csv.writer(category_file)
+
+        category_writer.writerow(['Category Name', 'Category URL'])
+
+        # Szukanie głównych kategorii
+        categories = driver.find_elements("xpath", "//ul[@class='standard']/li")
+        category_list = []
+        for category in categories:
+            try:
+                link_element = category.find_element("tag name", "a")
+                name = link_element.text
+                category_url = link_element.get_attribute("href")
+                category_list.append((name, category_url))
+                category_writer.writerow([name, category_url])
+
+            except NoSuchElementException as e:
+                print(
+                    f'Nie udało się pobrać danych dla kategorii {category.get_attribute("id") if category else "Brak ID"}: {e}')
+        for name, category_url in category_list:
+            driver.get(category_url)
+
+            open_subcategories(driver, name)
+
+
+
+def open_subcategories(driver, name):
+    sanitized_name = name.replace("/", "_").replace("\\", "_")
+
+    elements = driver.find_elements("css selector", "li.current a")
+
+    if not elements:
+        print(f"Element 'li.current a' nie istnieje na stronie dla kategorii: {name}")
+        driver.back()
+        return
+
+    with open(f'subcategories_of_{sanitized_name}.csv', mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Subcategory Name'])
+        current_element = driver.find_element("css selector", "li.current a")
+        href_value = current_element.get_attribute("href")
+        category_elements = driver.find_elements("css selector", "li[id='category_']")
+
+        for element in category_elements:
+            category_id = element.get_attribute("id")
+            print("ID kategorii: ", category_id)
+
+            try:
+                link_element = element.find_element("tag name", "a")
+                name = link_element.text
+                writer.writerow([name])
+
+            except:
+                print("Brak linku w elemencie:", element.get_attribute("id"))
+        driver.back()
 
 def save(attributes, category, name, price, img_url):
     global products_category_tab
