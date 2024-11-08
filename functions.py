@@ -1,11 +1,14 @@
 import os
 import csv
 import time
+from telnetlib import EC
 
 import requests
 from selenium import webdriver
 from selenium.common import NoSuchElementException
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 
@@ -95,15 +98,24 @@ def open_product_and_get_data(product_url, driver):
     # Otwieramy stronę produktu w nowym oknie
     driver.execute_script("window.open(arguments[0]);", product_url)
     driver.switch_to.window(driver.window_handles[1])  # Przełączamy się na nowe okno
-    time.sleep(2)  # Czekamy na załadowanie strony produktu
 
-    # Pobieranie atrybutów produktu
-    attributes = get_product_attributes(driver)
+    try:
+        # Czekamy na załadowanie elementu specyficznego dla strony produktu (np. 'prodname')
+        WebDriverWait(driver, 10).until(
+            lambda d: d.execute_script("return document.readyState") == "complete"
+        )
 
-    # Zamknięcie okna i powrót do głównej strony kategorii
-    driver.close()
-    driver.switch_to.window(driver.window_handles[0])  # Przełączamy się na główne okno
-    time.sleep(1)  # Opcjonalnie czekamy chwilę przed kolejną iteracją
+        # Pobieranie atrybutów produktu
+        attributes = get_product_attributes(driver)
+
+    except Exception as e:
+        print(f"Nie udało się pobrać danych dla produktu {product_url}: {e}")
+        attributes = []
+
+    finally:
+        # Zamknięcie okna i powrót do głównej strony kategorii
+        driver.close()
+        driver.switch_to.window(driver.window_handles[0])  # Przełączamy się na główne okno
 
     return attributes
 

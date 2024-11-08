@@ -1,3 +1,6 @@
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+
 from functions import *
 import os
 import csv
@@ -5,6 +8,7 @@ import requests
 from selenium import webdriver
 from selenium.common import NoSuchElementException
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import time
@@ -17,23 +21,20 @@ driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 url = 'https://wloczkowyswiat.pl/wloczki'
 driver.get(url)
 
-# Czekamy na pełne załadowanie strony
-time.sleep(5)
+WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'prodname')))
 
-# Tworzenie katalogu na obrazy, jeśli nie istnieje
-if not os.path.exists('pobraneWloczki'):
-    os.makedirs('pobraneWloczki')
-
-
-
-generate_csv_for_categories_and_subcategories(driver)
+#generate_csv_for_categories_and_subcategories(driver)
 driver.get(url)
 tmp(driver)
+
 # Przełączanie na kolejne strony i zapisywanie danych
 while True:
     try:
+
         # Znajdowanie przycisku "Następna strona" i pobranie linku
-        next_button = driver.find_element("xpath", "//li[@class='last']/a")
+        next_button = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//li[@class='last']/a"))
+        )
         next_page_url = next_button.get_attribute("href")
 
         # Jeśli link nie istnieje, kończymy pętlę
@@ -46,7 +47,7 @@ while True:
 
         # Przechodzenie na nową stronę
         driver.get(next_page_url)
-        time.sleep(5)  # Czekamy na załadowanie nowej strony
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'prodname')))  # Czekamy na załadowanie nowej strony
 
         # Zapisanie danych z kolejnej strony
         tmp(driver)
