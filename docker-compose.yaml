@@ -36,6 +36,8 @@ services:
       - 8080:80
     networks:
       - prestashop-net
+    volumes:
+      - prestashop:/var/www/html
 
   phpmyadmin:
     container_name: phpmyadmin
