@@ -6,10 +6,14 @@ PRESTASHOP_CONTAINER="prestashop"
 DATABASE_NAME="prestashop"
 MYSQL_USER="root"
 MYSQL_PASSWORD="prestashop"
-DUMP_FILE="prestashop_dump.sql"
-IMAGE_BACKUP_DIR="prestashop_images"
+DUMP_FILE="../PrestaShop/prestashop_dump.sql"
+IMAGE_BACKUP_DIR="../PrestaShop/images"
 
-#Create a SQL dump
+# Create the PrestaShop directory if it doesn't exist
+mkdir -p ../PrestaShop
+mkdir -p $IMAGE_BACKUP_DIR
+
+# Create a SQL dump
 echo "Creating SQL dump for database '$DATABASE_NAME'..."
 docker exec -i $MYSQL_CONTAINER mysqldump -u $MYSQL_USER -p$MYSQL_PASSWORD $DATABASE_NAME > $DUMP_FILE
 
@@ -21,9 +25,9 @@ else
     exit 1
 fi
 
-# Create a backup of the images directory
-echo "Creating backup of product images from the PrestaShop container..."
-docker cp $PRESTASHOP_CONTAINER:/var/www/html/img/p $IMAGE_BACKUP_DIR
+# Create a backup of the entire img directory
+echo "Creating backup of images from the PrestaShop container..."
+docker cp $PRESTASHOP_CONTAINER:/var/www/html/img $IMAGE_BACKUP_DIR
 
 # Check if the images were copied successfully
 if [ $? -eq 0 ]; then
@@ -33,4 +37,4 @@ else
     exit 1
 fi
 
-echo "Backup completed successfully: Database dump is in '$DUMP_FILE' and images are in '$IMAGE_BACKUP_DIR'."
+echo "Backup completed successfully: Database dump is in '$DUMP_FILE' and images are in '$IMAGE_BACKUP_DIR/img'."
