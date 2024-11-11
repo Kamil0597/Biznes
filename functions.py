@@ -11,37 +11,35 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
-
+from selenium.common import TimeoutException
 from config import products_category_tab
 
 def tmp(driver):
-    tmp = 0
 
     page_source = driver.page_source
     soup = BeautifulSoup(page_source, 'html.parser')
 
     for product in soup.find_all('div', {'data-product-id': True}):
-        print(tmp)
-        tmp = tmp + 1
         try:
+
             # Pobieranie kategorii
             category = product.get('data-category', '').strip()
 
-            # Pobieranie nazwy i linku do produktu
             name_tag = product.find('a', class_='prodname')
             name = name_tag.get('title', '').strip() if name_tag else ''
             product_url = name_tag['href'] if name_tag else ''
 
-            # Pobieranie zdjęć i ceny za pomocą get_image_and_price
-            img_url, price = get_image_and_price(product)
-            if img_url is None:  # Pomijamy produkt, jeśli brakuje obrazów
+            # Pobieranie miniaturki i ceny
+            img_small_url, price = get_image_and_price(product)
+            if img_small_url is None:  # Pomijamy produkt, jeśli brakuje obrazów
                 continue
+
 
             # Otwieranie strony produktu i pobieranie szczegółowych danych
             if product_url:
                 product_url = 'https://wloczkowyswiat.pl' + product_url if not product_url.startswith('http') else product_url
-                attributes = open_product_and_get_data(product_url, driver)
-                save(attributes, category, name, price, img_url)
+                attributes, img_orginal_url = open_product_and_get_data(product_url, driver)
+                save(attributes, category, name, price, img_small_url, img_orginal_url)
             else:
                 attributes = {}
 
@@ -50,20 +48,19 @@ def tmp(driver):
             print(f'Nie udało się pobrać danych dla produktu: {e}')
 
 def get_image_and_price(product):
-    img_urls = []
+    img_small_url = []
     try:
-        # Pobieranie pełnowymiarowych URL-i obrazów
-        img_tags = product.find_all('img', limit=2)  # Znajdujemy dwa pierwsze obrazy
+        img_tags = product.find_all('img', limit=1)
         for img_tag in img_tags:
             img_url = img_tag.get('data-src') or img_tag.get('src')
             if img_url and not img_url.startswith('http'):
                 img_url = 'https://wloczkowyswiat.pl' + img_url
-            img_urls.append(img_url)
+            img_small_url.append(img_url)
 
         # Pobieranie ceny
         cena_tag = product.find('div', class_='price f-row')
         price = cena_tag.find('em').text.strip() if cena_tag else ''
-        return img_urls, price
+        return img_small_url, price
 
     except Exception as e:
         print(f"Nie udało się pobrać obrazów lub ceny: {e}")
@@ -91,8 +88,30 @@ def get_product_attributes(driver):
                 pass
     except NoSuchElementException as e:
         print("Brak tabeli atrybutów")
+    img_original_url = ''
 
-    return attributes
+    try:
+        WebDriverWait(driver, 10).until(lambda d: d.execute_script("return document.readyState") == "complete")
+
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
+        link_tag = soup.find('link', {'itemprop': 'image'})
+
+        img_original_url = link_tag.get('href')
+
+        if img_original_url and not img_original_url.startswith('http'):
+            img_original_url = 'https://wloczkowyswiat.pl' + img_original_url
+
+        print("URL pełnowymiarowego obrazu:", img_original_url)
+
+
+    except TimeoutException:
+        print("Nie znaleziono elementu <a class='js_gallery-anchor-image'> w podanym czasie.")
+        return None
+    except NoSuchElementException:
+        print("Element <a class='js_gallery-anchor-image'> nie istnieje.")
+        return None
+
+    return attributes, img_original_url
 
 def open_product_and_get_data(product_url, driver):
     # Otwieramy stronę produktu w nowym oknie
@@ -100,13 +119,12 @@ def open_product_and_get_data(product_url, driver):
     driver.switch_to.window(driver.window_handles[1])  # Przełączamy się na nowe okno
 
     try:
-        # Czekamy na załadowanie elementu specyficznego dla strony produktu (np. 'prodname')
         WebDriverWait(driver, 10).until(
             lambda d: d.execute_script("return document.readyState") == "complete"
         )
 
-        # Pobieranie atrybutów produktu
-        attributes = get_product_attributes(driver)
+
+        attributes, img_original_url = get_product_attributes(driver)
 
     except Exception as e:
         print(f"Nie udało się pobrać danych dla produktu {product_url}: {e}")
@@ -115,9 +133,9 @@ def open_product_and_get_data(product_url, driver):
     finally:
         # Zamknięcie okna i powrót do głównej strony kategorii
         driver.close()
-        driver.switch_to.window(driver.window_handles[0])  # Przełączamy się na główne okno
+        driver.switch_to.window(driver.window_handles[0])
 
-    return attributes
+    return attributes, img_original_url
 
 def generate_csv_for_categories_and_subcategories(driver):
     with open('categories.csv', mode='w', newline='', encoding='utf-8') as category_file:
@@ -161,7 +179,6 @@ def open_subcategories(driver, name):
         writer = csv.writer(file)
         writer.writerow(['Subcategory Name'])
         current_element = driver.find_element("css selector", "li.current a")
-        href_value = current_element.get_attribute("href")
         category_elements = driver.find_elements("css selector", "li[id='category_']")
 
         for element in category_elements:
@@ -177,21 +194,20 @@ def open_subcategories(driver, name):
                 print("Brak linku w elemencie:", element.get_attribute("id"))
         driver.back()
 
-def save(attributes, category, name, price, img_url):
+def save(attributes, category, name, price, img_small_url, img_orginal_url):
     global products_category_tab
 
-    # Tryb 'a' jeśli plik już istnieje, 'w' jeśli tworzymy nowy
+
     mode = 'a' if category in products_category_tab else 'w'
     file_exists = category in products_category_tab
 
-    # Spłaszczanie listy słowników do jednego słownika
     flattened_attributes = {}
     for attr in attributes:
         flattened_attributes.update(attr)
 
-    flattened_attributes = {'Nazwa': name, 'Cena': price, 'Linki do zdjęć': ', '.join(img_url), **flattened_attributes}
+    flattened_attributes = {'Nazwa': name, 'Cena': price, 'Linki do miniaturki': ', '.join(img_small_url),'Link do orginalnego zdjęcia': ', '.join(img_orginal_url) ,**flattened_attributes}
 
-    save_img(img_url, category, name)
+    save_img(img_small_url, img_orginal_url, category, name)
 
     with open(f'{category}.csv', mode=mode, newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
@@ -203,27 +219,29 @@ def save(attributes, category, name, price, img_url):
         writer.writerow(flattened_attributes.values())  # Wartości wiersza
 
 
-def save_img(img_urls, category, name):
-    # Upewnienie się, że img_urls jest listą URL-i
-    if not isinstance(img_urls, list):
-        img_urls = [img_urls]
+def save_img(img_small, img_original, category, name):
 
     # Utworzenie katalogu dla danej kategorii, jeśli nie istnieje
     if not os.path.exists(category):
         os.makedirs(category)
 
-    # Pobieranie i zapisywanie każdego zdjęcia z listy URL-i
-    for idx, img_url in enumerate(img_urls):
+    def download_and_save_image(img_url, filename):
         try:
             response = requests.get(img_url)
-            response.raise_for_status()  # Sprawdzenie, czy pobieranie się powiodło
+            response.raise_for_status()
 
-            # Zapis zdjęcia z unikalną nazwą, aby uniknąć nadpisywania
-            img_filename = os.path.join(category, f"{name}_img_{idx + 1}.jpg")
-            with open(img_filename, 'wb') as img_file:
+            with open(filename, 'wb') as img_file:
                 img_file.write(response.content)
 
-            print(f"Pobrano zdjęcie {img_url} dla produktu {name}")
-
+            print(f"Pobrano zdjęcie {img_url} do {filename}")
         except requests.exceptions.RequestException as e:
-            print(f"Nie udało się pobrać zdjęcia {img_url}: {e}")
+            print(f"Nie udało się pobrać zdjęcia {img_url}: exeption: {e}")
+
+
+    if img_small:
+        file_name = os.path.join(category, f"{name}_small.jpg")
+        img_small = img_small[0]
+        download_and_save_image(img_small, file_name)
+    if img_original:
+        file_name = os.path.join(category, f"{name}_original.jpg")
+        download_and_save_image(img_original, file_name)
