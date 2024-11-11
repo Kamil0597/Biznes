@@ -123,7 +123,6 @@ def open_product_and_get_data(product_url, driver):
             lambda d: d.execute_script("return document.readyState") == "complete"
         )
 
-
         attributes, img_original_url = get_product_attributes(driver)
 
     except Exception as e:
@@ -169,25 +168,23 @@ def open_subcategories(driver, name):
     sanitized_name = name.replace("/", "_").replace("\\", "_")
 
     elements = driver.find_elements("css selector", "li.current a")
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
 
     if not elements:
         print(f"Element 'li.current a' nie istnieje na stronie dla kategorii: {name}")
         driver.back()
         return
-
     with open(f'subcategories_of_{sanitized_name}.csv', mode='w', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         writer.writerow(['Subcategory Name'])
-        current_element = driver.find_element("css selector", "li.current a")
-        category_elements = driver.find_elements("css selector", "li[id='category_']")
+        category_elements = soup.select("li.current ul li[id^='category_']")
 
         for element in category_elements:
-            category_id = element.get_attribute("id")
-            print("ID kategorii: ", category_id)
+            category_id = element.get("id")
 
             try:
-                link_element = element.find_element("tag name", "a")
-                name = link_element.text
+                link_element = element.find("a")
+                name = link_element.text.strip()
                 writer.writerow([name])
 
             except:
