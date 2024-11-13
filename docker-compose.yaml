@@ -30,14 +30,17 @@ services:
       PS_FOLDER_ADMIN: admin123
       PS_FOLDER_INSTALL: install
       PS_INSTALL_AUTO: 1
-      PS_DOMAIN: localhost:8080
+      PS_DOMAIN: localhost
       PS_DEV_MODE: 1
+      PS_ENABLE_SSL: 1  
     ports:
       - 8080:80
+      - 443:443
     networks:
       - prestashop-net
     volumes:
       - prestashop:/var/www/html
+      - ./conf:/var/www/html/conf
 
   phpmyadmin:
     container_name: phpmyadmin
