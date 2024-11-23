@@ -7,13 +7,15 @@ DATABASE_NAME="prestashop"
 MYSQL_USER="root"
 MYSQL_PASSWORD="prestashop"
 DUMP_FILE="../PrestaShop/prestashop_dump.sql"
-IMAGE_BACKUP_DIR="../PrestaShop/images"
+BACKUP_DIR="../PrestaShop/html"
+
+# List of specific folders to back up
+FOLDERS_TO_BACKUP=("img" "mails" "themes" "config" "upload")
 
 # Restore the SQL dump
 echo "Restoring SQL dump to database '$DATABASE_NAME'..."
 docker exec -i $MYSQL_CONTAINER mysql -u $MYSQL_USER -p$MYSQL_PASSWORD $DATABASE_NAME < $DUMP_FILE
 
-# Check if the dump was restored successfully
 if [ $? -eq 0 ]; then
     echo "SQL dump restored successfully."
 else
@@ -21,14 +23,18 @@ else
     exit 1
 fi
 
-# Copy the images into the PrestaShop container
-echo "Importing pictures..."
-docker cp $IMAGE_BACKUP_DIR/img/ $PRESTASHOP_CONTAINER:/var/www/html/
+# Replace specific folders in the PrestaShop container
+for folder in "${FOLDERS_TO_BACKUP[@]}"; do
+    echo "Restoring folder: $folder..."
+    docker exec -i $PRESTASHOP_CONTAINER rm -rf /var/www/html/$folder
+    docker cp $BACKUP_DIR/$folder $PRESTASHOP_CONTAINER:/var/www/html/
 
-# Check if the images were copied successfully
-if [ $? -eq 0 ]; then
-    echo "Pictures imported successfully!"
-else
-    echo "Failed to import pictures."
-    exit 1
-fi
+    if [ $? -eq 0 ]; then
+        echo "Folder '$folder' restored successfully."
+    else
+        echo "Failed to restore folder '$folder'."
+        exit 1
+    fi
+done
+
+echo "Restoration completed successfully: Database and selected folders have been restored."

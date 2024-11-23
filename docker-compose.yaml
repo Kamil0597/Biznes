@@ -25,7 +25,7 @@ services:
       PS_SHOP_NAME: "Włóczkowy Świat"
       PS_LANGUAGE: pl
       PS_COUNTRY: PL
-      ADMIN_MAIL: admin@prestashop.com
+      ADMIN_MAIL: wloczkowyswiat.prestashop@gmail.com
       ADMIN_PASSWD: prestashop
       PS_FOLDER_ADMIN: admin123
       PS_FOLDER_INSTALL: install

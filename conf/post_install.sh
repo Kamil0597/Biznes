@@ -3,7 +3,7 @@ set -e
 
 echo "Running Post-installation script."
 
-mkdir /etc/apache2/certs 
+mkdir -p /etc/apache2/certs 
 
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -keyout /etc/apache2/certs/mysite.key \
