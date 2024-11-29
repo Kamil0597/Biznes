@@ -14,6 +14,24 @@ from bs4 import BeautifulSoup
 from selenium.common import TimeoutException
 from config import products_category_tab
 
+
+folder_name = "scrapped_data"
+images_folder_name = os.path.join(folder_name, "images")
+data_folder_name = os.path.join(folder_name, "data")
+
+def make_dirs():
+
+    directories = [folder_name, images_folder_name, data_folder_name]
+
+    # Tworzenie folderów, jeśli nie istnieją
+    for directory in directories:
+        if not os.path.isdir(directory):
+            os.makedirs(directory, exist_ok=True)
+            print(f"Folder {directory} został utworzony.")
+        else:
+            print(f"Folder {directory} już istnieje.")
+
+
 def tmp(driver):
 
     page_source = driver.page_source
@@ -137,7 +155,8 @@ def open_product_and_get_data(product_url, driver):
     return attributes, img_original_url
 
 def generate_csv_for_categories_and_subcategories(driver):
-    with open('categories.csv', mode='w', newline='', encoding='utf-8') as category_file:
+    file_path = os.path.join(folder_name, 'categories.csv')
+    with open(file_path, mode='w', newline='', encoding='utf-8') as category_file:
 
         category_writer = csv.writer(category_file)
 
@@ -174,7 +193,14 @@ def open_subcategories(driver, name):
         print(f"Element 'li.current a' nie istnieje na stronie dla kategorii: {name}")
         driver.back()
         return
-    with open(f'subcategories_of_{sanitized_name}.csv', mode='w', newline='', encoding='utf-8') as file:
+
+    category_folder = os.path.join(data_folder_name, sanitized_name)
+
+    os.makedirs(category_folder, exist_ok=True)
+
+    file_path = os.path.join(category_folder, f'subcategories_of_{sanitized_name}.csv')
+
+    with open(file_path, mode='w', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         writer.writerow(['Subcategory Name'])
         category_elements = soup.select("li.current ul li[id^='category_']")
@@ -202,11 +228,18 @@ def save(attributes, category, name, price, img_small_url, img_orginal_url):
     for attr in attributes:
         flattened_attributes.update(attr)
 
-    flattened_attributes = {'Nazwa': name, 'Cena': price, 'Linki do miniaturki': ', '.join(img_small_url),'Link do orginalnego zdjęcia': ', '.join(img_orginal_url) ,**flattened_attributes}
+    flattened_attributes = {'Nazwa': name, 'Cena': price, **flattened_attributes}
 
     save_img(img_small_url, img_orginal_url, category, name)
 
-    with open(f'{category}.csv', mode=mode, newline='', encoding='utf-8') as file:
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    folder_path = os.path.join(current_directory, data_folder_name)
+
+
+    file_name = f'{category}.csv'
+    file_path = os.path.join(folder_path, file_name)
+
+    with open(file_path, mode=mode, newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
 
         if not file_exists:
@@ -218,9 +251,10 @@ def save(attributes, category, name, price, img_small_url, img_orginal_url):
 
 def save_img(img_small, img_original, category, name):
 
-    # Utworzenie katalogu dla danej kategorii, jeśli nie istnieje
-    if not os.path.exists(category):
-        os.makedirs(category)
+    category_folder = os.path.join(images_folder_name, category)
+
+    if not os.path.exists(category_folder):
+        os.makedirs(category_folder)
 
     def download_and_save_image(img_url, filename):
         try:
@@ -236,9 +270,9 @@ def save_img(img_small, img_original, category, name):
 
 
     if img_small:
-        file_name = os.path.join(category, f"{name}_small.jpg")
+        file_name = os.path.join(category_folder, f"{name}_small.jpg")
         img_small = img_small[0]
         download_and_save_image(img_small, file_name)
     if img_original:
-        file_name = os.path.join(category, f"{name}_original.jpg")
+        file_name = os.path.join(category_folder, f"{name}_original.jpg")
         download_and_save_image(img_original, file_name)

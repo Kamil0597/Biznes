@@ -23,6 +23,8 @@ driver.get(url)
 
 WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'prodname')))
 
+make_dirs()
+
 generate_csv_for_categories_and_subcategories(driver)
 driver.get(url)
 tmp(driver)
