@@ -13,11 +13,14 @@ from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 from selenium.common import TimeoutException
 from config import products_category_tab
+import uuid
 
 
 folder_name = "scrapped_data"
 images_folder_name = os.path.join(folder_name, "images")
 data_folder_name = os.path.join(folder_name, "data")
+product_id = 1
+
 
 def make_dirs():
 
@@ -39,7 +42,6 @@ def tmp(driver):
 
     for product in soup.find_all('div', {'data-product-id': True}):
         try:
-
             # Pobieranie kategorii
             category = product.get('data-category', '').strip()
 
@@ -160,62 +162,72 @@ def generate_csv_for_categories_and_subcategories(driver):
 
         category_writer = csv.writer(category_file)
 
-        category_writer.writerow(['Category Name', 'Category URL'])
+        # Nagłówki do pliku CSV
+        category_writer.writerow([
+            'Category ID', 'Active (0/1)', 'Name *', 'Parent category',
+            'Root category (0/1)', 'Description', 'Meta title',
+            'Meta keywords', 'Meta description', 'URL rewritten', 'Image URL'
+        ])
 
         # Szukanie głównych kategorii
         categories = driver.find_elements("xpath", "//ul[@class='standard']/li")
         category_list = []
+        index = 10  # Początkowy ID kategorii
+
         for category in categories:
             try:
                 link_element = category.find_element("tag name", "a")
                 name = link_element.text
                 category_url = link_element.get_attribute("href")
-                category_list.append((name, category_url))
-                category_writer.writerow([name, category_url])
+                category_list.append((index, name, category_url))
+
+                # Zapisz główną kategorię
+                category_writer.writerow([
+                    index, 1, name, '', 1, '',
+                    f'Meta title {name}', f'Meta keywords {name}',
+                    f'Meta description {name}',
+                    name.lower().replace(" ", "-"), ''
+                ])
+                index += 1
 
             except NoSuchElementException as e:
                 print(
-                    f'Nie udało się pobrać danych dla kategorii {category.get_attribute("id") if category else "Brak ID"}: {e}')
-        for name, category_url in category_list:
+                    f'Nie udało się pobrać danych dla kategorii {category.get_attribute("id") if category else "Brak ID"}: {e}'
+                )
+
+        # Pobieranie podkategorii
+        for cat_id, name, category_url in category_list:
             driver.get(category_url)
+            index = open_subcategories(driver, name, cat_id, index, category_writer)
 
-            open_subcategories(driver, name)
-
-
-
-def open_subcategories(driver, name):
-    sanitized_name = name.replace("/", "_").replace("\\", "_")
-
-    elements = driver.find_elements("css selector", "li.current a")
+def open_subcategories(driver, parent_name, parent_id, start_index, category_writer):
     soup = BeautifulSoup(driver.page_source, 'html.parser')
+    category_elements = soup.select("li.current ul li[id^='category_']")
 
-    if not elements:
-        print(f"Element 'li.current a' nie istnieje na stronie dla kategorii: {name}")
-        driver.back()
-        return
+    for element in category_elements:
+        try:
+            # Pobierz nazwę i URL podkategorii
+            link_element = element.find("a")
+            subcategory_name = link_element.text.strip()
+            subcategory_url = link_element.get("href")
 
-    category_folder = os.path.join(data_folder_name, sanitized_name)
+            # Zapisz podkategorię w pliku CSV
+            category_writer.writerow([
+                start_index, 1, subcategory_name, parent_name, 0, '',
+                f'Meta title {subcategory_name}', f'Meta keywords {subcategory_name}',
+                f'Meta description {subcategory_name}',
+                subcategory_name.lower().replace(" ", "-"), ''
+            ])
+            start_index += 1
 
-    os.makedirs(category_folder, exist_ok=True)
+            # Wejdź głębiej, jeśli są kolejne podkategorie
+            driver.get(subcategory_url)
+            start_index = open_subcategories(driver, subcategory_name, start_index, parent_id, category_writer)
+        except Exception as e:
+            print(f"Nie udało się pobrać podkategorii: {e}")
 
-    file_path = os.path.join(category_folder, f'subcategories_of_{sanitized_name}.csv')
-
-    with open(file_path, mode='w', newline='', encoding='utf-8') as file:
-        writer = csv.writer(file)
-        writer.writerow(['Subcategory Name'])
-        category_elements = soup.select("li.current ul li[id^='category_']")
-
-        for element in category_elements:
-            category_id = element.get("id")
-
-            try:
-                link_element = element.find("a")
-                name = link_element.text.strip()
-                writer.writerow([name])
-
-            except:
-                print("Brak linku w elemencie:", element.get_attribute("id"))
-        driver.back()
+    driver.back()
+    return start_index
 
 def save(attributes, category, name, price, img_small_url, img_orginal_url):
     global products_category_tab
@@ -224,12 +236,117 @@ def save(attributes, category, name, price, img_small_url, img_orginal_url):
     mode = 'a' if category in products_category_tab else 'w'
     file_exists = category in products_category_tab
 
-    flattened_attributes = {}
-    for attr in attributes:
-        flattened_attributes.update(attr)
+    def format_features(attributes):
+        # Spłaszczenie listy słowników do jednego słownika
+        flattened_attributes = {}
+        for item in attributes:
+            flattened_attributes.update(item)
 
-    flattened_attributes = {'Nazwa': name, 'Cena': price, **flattened_attributes}
+        # Formatuj cechy w formacie wymaganym przez PrestaShop
+        formatted_features = []
+        position = 1
+        for key, value in flattened_attributes.items():
+            formatted_features.append(f"{key}:{value}:{position}")
+            position += 1
 
+        return ",".join(formatted_features)
+
+    features = format_features(attributes)
+
+    prestashop_columns = [
+        "Product ID", "Active (0/1)", "Name *", "Categories (x,y,z...)", "Price tax excluded",
+        "Tax rules ID", "Wholesale price", "On sale (0/1)", "Discount amount", "Discount percent",
+        "Discount from (yyyy-mm-dd)", "Discount to (yyyy-mm-dd)", "Reference #", "Supplier reference #",
+        "Supplier", "Manufacturer", "EAN13", "UPC", "Ecotax", "Width", "Height", "Depth", "Weight",
+        "Delivery time of in-stock products", "Delivery time of out-of-stock products with allowed orders",
+        "Quantity", "Minimal quantity", "Low stock level", "Send me an email when the quantity is under this level",
+        "Visibility", "Additional shipping cost", "Unity", "Unit price", "Summary", "Description",
+        "Tags (x,y,z...)", "Meta title", "Meta keywords", "Meta description", "URL rewritten", "Text when in stock",
+        "Text when backorder allowed", "Available for order (0 = No, 1 = Yes)", "Product available date",
+        "Product creation date", "Show price (0 = No, 1 = Yes)", "Image URLs (x,y,z...)", "Image alt texts (x,y,z...)",
+        "Delete existing images (0 = No, 1 = Yes)", "Feature(Name:Value:Position)",
+        "Available online only (0 = No, 1 = Yes)",
+        "Condition", "Customizable (0 = No, 1 = Yes)", "Uploadable files (0 = No, 1 = Yes)",
+        "Text fields (0 = No, 1 = Yes)",
+        "Out of stock action", "Virtual product", "File URL", "Number of allowed downloads", "Expiration date",
+        "Number of days", "ID / Name of shop", "Advanced stock management", "Depends On Stock", "Warehouse",
+        "Accessories (x,y,z...)"
+    ]
+    global product_id
+    price = price.replace(",", ".")
+    reference = f"REF-{uuid.uuid4().hex[:8]}"
+    prestashop_data = {
+        "ID": product_id,  # Opcjonalnie, jeśli dodajesz nowy produkt, może być puste
+        "Active (0/1)": 1,  # Produkt aktywny
+        "Name *": name,  # Nazwa produktu
+        "Categories (x,y,z...)": category,  # ID lub nazwa kategorii
+        "Price tax excluded": price.replace("zł", "").replace(",", ".").strip(),  # Cena netto
+        "Price tax included": "",  # Cena brutto (opcjonalnie, zostanie obliczona na podstawie podatku)
+        "Tax rules ID": "",  # ID reguły podatku
+        "Wholesale price": "",  # Koszt własny (opcjonalnie)
+        "On sale (0/1)": 0,  # Produkt nie jest w promocji
+        "Discount amount": "",  # Wartość rabatu
+        "Discount percent": "",  # Procent rabatu
+        "Discount from (yyyy-mm-dd)": "",  # Data rozpoczęcia rabatu
+        "Discount to (yyyy-mm-dd)": "",  # Data zakończenia rabatu
+        "Reference #": "",  # Indeks #
+        "Supplier reference #": reference,  # Kod dostawcy
+        "Supplier": "",  # Dostawca (opcjonalnie)
+        "Manufacturer": "",  # Marka (opcjonalnie)
+        "EAN13": "",  # kod EAN13 (opcjonalnie)
+        "UPC": "",  # Kod kreskowy UPC
+        "MPN": "",  # MPN (opcjonalnie)
+        "Ecotax": "",  # Podatek ekologiczny
+        "Width": "",  # Szerokość (opcjonalnie)
+        "Height": "",  # Wysokość (opcjonalnie)
+        "Depth": "",  # Głębokość (opcjonalnie)
+        "Weight": "",  # Waga (opcjonalnie)
+        "Delivery time of in-stock products": "",  # Czas dostawy dostępnych produktów
+        "Delivery time of out-of-stock products with allowed orders": "",  # Czas dostawy wyprzedanych produktów
+        "Quantity": 10,  # Ilość dostępnych sztuk
+        "Minimal quantity": 1,  # Minimalna ilość zamówienia
+        "Low stock level": 0,  # Niski poziom produktów w magazynie
+        "Send me an email when the quantity is under this level": 0,  # Powiadomienia e-mail
+        "Visibility": "both",  # Widoczność w katalogu i wyszukiwarce
+        "Additional shipping cost": "",  # Dodatkowe koszty przesyłki
+        "Unity": "",  # Jednostka dla ceny za jednostkę
+        "Unit price": "",  # Cena za jednostkę
+        "Summary": "",  # Podsumowanie produktu
+        "Description": "",  # Opis produktu
+        "Tags (x,y,z...)": "",  # Tagi produktu
+        "Meta title": name,  # Meta-tytuł (SEO)
+        "Meta keywords": "",  # Słowa kluczowe meta (SEO)
+        "Meta description": "",  # Opis meta (SEO)
+        "URL rewritten": name.lower().replace(" ", "-").replace(",", ""),  # Przepisany URL
+        "Text when in stock": "Available",  # Etykieta, gdy produkt jest w magazynie
+        "Text when backorder allowed": "Available on backorder",  # Etykieta, gdy zamówienia są dozwolone
+        "Available for order (0 = No, 1 = Yes)": 1,  # Produkt dostępny do zamówienia
+        "Product available date": "",  # Data dostępności produktu
+        "Product creation date": "",  # Data wytworzenia produktu
+        "Show price (0 = No, 1 = Yes)": 1,  # Wyświetlanie ceny
+        "Image URLs (x,y,z...)": ",".join([img_orginal_url] if img_orginal_url else []),  # URL zdjęć
+        "Image alt texts (x,y,z...)": name,  # Alternatywny tekst dla zdjęć
+        "Delete existing images (0 = No, 1 = Yes)": 0,  # Nie usuwaj istniejących zdjęć
+        "Feature(Name:Value:Position:Custom)": "",  # Cecha produktu (opcjonalnie)
+        "Available online only (0 = No, 1 = Yes)": 0,  # Produkt dostępny tylko online
+        "Condition": "new",  # Stan produktu (nowy)
+        "Customizable (0 = No, 1 = Yes)": 0,  # Produkt nie jest konfigurowalny
+        "Uploadable files (0 = No, 1 = Yes)": 0,  # Nie można przesyłać plików
+        "Text fields (0 = No, 1 = Yes)": 0,  # Brak pól tekstowych
+        "Out of stock action": "default",  # Domyślne zachowanie, gdy produkt jest wyprzedany
+        "Virtual product": 0,  # Produkt nie jest wirtualny
+        "File URL": "",  # URL pliku (dla produktów wirtualnych)
+        "Number of allowed downloads": "",  # Liczba dozwolonych pobrań
+        "Expiration date (yyyy-mm-dd)": "",  # Data wygaśnięcia (opcjonalnie)
+        "Number of days": "",  # Liczba dni dostępu (opcjonalnie)
+        "ID / Name of shop": "",  # ID lub nazwa sklepu (opcjonalnie)
+        "Advanced stock management": 0,  # Brak zaawansowanego zarządzania magazynem
+        "Depends On Stock": 0,  # Nie zależy od stanu magazynowego
+        "Warehouse": "",  # Magazyn (opcjonalnie)
+        "Accessories (x,y,z...)": ""  # Akcesoria produktu
+    }
+
+    product_id = product_id + 1
     save_img(img_small_url, img_orginal_url, category, name)
 
     current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -238,15 +355,12 @@ def save(attributes, category, name, price, img_small_url, img_orginal_url):
 
     file_name = f'{category}.csv'
     file_path = os.path.join(folder_path, file_name)
-
     with open(file_path, mode=mode, newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
-
         if not file_exists:
-            writer.writerow(flattened_attributes.keys())  # Nagłówki z kluczy słownika
+            writer.writerow(prestashop_columns)  # Nagłówki z kluczy słownika
             products_category_tab.append(category)
-
-        writer.writerow(flattened_attributes.values())  # Wartości wiersza
+        writer.writerow([prestashop_data.get(col, "") for col in prestashop_columns])  # Wartości wiersza
 
 
 def save_img(img_small, img_original, category, name):

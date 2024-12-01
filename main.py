@@ -32,7 +32,6 @@ tmp(driver)
 # Przełączanie na kolejne strony i zapisywanie danych
 while True:
     try:
-
         # Znajdowanie przycisku "Następna strona" i pobranie linku
         next_button = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.XPATH, "//li[@class='last']/a"))
