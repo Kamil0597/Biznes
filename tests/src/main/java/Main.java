@@ -32,10 +32,13 @@ public class Main {
             Thread.sleep(100);
 
             runTest9(driver);
-            driver.quit();
-        } catch (InterruptedException e) {
-            System.out.println("test was interrupted");
+            Thread.sleep(100);
+
+            runTest10(driver);
+        } catch (Exception e) {
+            System.out.println("Tests failed due to error: " + e.getMessage());
         }
+        driver.quit();
         long endTime = System.currentTimeMillis();
         long duration = (endTime - startTime)/1000; // duration in seconds
         long minutes = duration/60;
@@ -158,7 +161,7 @@ public class Main {
     /*
     Test includes removing 3 products form the cart
      */
-    public static void runTest3(WebDriver driver, WebDriverWait wait) throws InterruptedException {
+    public static void runTest3(WebDriver driver, WebDriverWait wait) {
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[contains(text(),'Koszyk')]")))
                 .click();
         int expected = driver.findElements(By.cssSelector(".remove-from-cart")).size() - 3;
@@ -179,7 +182,7 @@ public class Main {
     /*
     Test includes registering a new user, then checking if after registration proper first and last names are displayed.
      */
-    public static void runTest4(WebDriver driver) throws InterruptedException {
+    public static void runTest4(WebDriver driver) {
         String firstName = "Test";
         String lastName = "Test";
         String mail = "Test" + System.currentTimeMillis() + "@gmail.com";
@@ -244,20 +247,21 @@ public class Main {
     Test that includes checking the status of the placed order, it is considered passed when there is an order present
     with status text, otherwise it is marked as failed.
      */
-    public static void runTest9(WebDriver driver) throws InterruptedException {
+    public static void runTest9(WebDriver driver) {
         driver.findElement(By.className("account")).click();
         driver.findElement(By.id("history-link")).click();
         try{
             String result = driver.findElement(By.cssSelector(".label.label-pill.bright")).getText();
             System.out.println("test 9 expected: any string, result: " + result + " passed: true");
         }catch (NoSuchElementException e){
-            System.out.println("Test 9 failed, reason: no orders");
+            System.out.println("Test 9 failed, reason: There is no status to be checked.");
         }
     }
 
-    public void runTest10(WebDriver driver) throws InterruptedException {
-        driver.get("https://localhost/pl/");
+    public static void runTest10(WebDriver driver) throws InterruptedException {
         driver.findElement(By.className("account")).click();
         driver.findElement(By.id("history-link")).click();
+        driver.findElement(By.cssSelector(".test-sm-center.hidden-md-down>a")).click();
+        Thread.sleep(5000);
     }
 }
