@@ -13,6 +13,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import time
 
+CATEGORY_ID_MAP = {}
 
 # Inicjalizacja przeglądarki
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -26,6 +27,9 @@ WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, '
 make_dirs()
 
 generate_csv_for_categories_and_subcategories(driver)
+categories_csv_path = 'scrapped_data/categories.csv'
+CATEGORY_ID_MAP = load_category_mapping(categories_csv_path)
+initialize_category_map(CATEGORY_ID_MAP)
 driver.get(url)
 tmp(driver)
 
