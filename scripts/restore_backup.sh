@@ -11,7 +11,7 @@ BACKUP_DIR="../PrestaShop/html"
 
 # List of specific folders to back up
 FOLDERS_TO_BACKUP=("img" "mails" "themes" "config" "upload")
-
+MODULES_TO_IMPORT=("ps_cashondelivery")
 # Restore the SQL dump
 echo "Restoring SQL dump to database '$DATABASE_NAME'..."
 docker exec -i $MYSQL_CONTAINER mysql -u $MYSQL_USER -p$MYSQL_PASSWORD $DATABASE_NAME < $DUMP_FILE
@@ -43,6 +43,14 @@ for folder in "${FOLDERS_TO_BACKUP[@]}"; do
         echo "Failed to restore folder '$folder'."
         exit 1
     fi
+done
+
+
+#Import modules
+for module in "${MODULES_TO_IMPORT[@]}"; do
+    echo "Restoring modules: $module..."
+    docker exec -i $PRESTASHOP_CONTAINER bash -c "chmod -R 777 /var/www/html/modules/$module"
+    docker cp $BACKUP_DIR/$module $PRESTASHOP_CONTAINER:/var/www/html/modules/
 done
 
 echo "Restoration completed successfully: Database and selected folders have been restored."

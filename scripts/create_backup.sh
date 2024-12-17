@@ -10,7 +10,7 @@ DUMP_FILE="../PrestaShop/prestashop_dump.sql"
 BACKUP_DIR="../PrestaShop/html"
 
 # List of specific folders to back up
-FOLDERS_TO_BACKUP=("img" "themes" "mails" "config" "upload")
+FOLDERS_TO_BACKUP=("img" "themes" "mails" "config" "upload" "modules/ps_cashondelivery")
 
 # Create the backup directory if it doesn't exist
 mkdir -p $BACKUP_DIR
