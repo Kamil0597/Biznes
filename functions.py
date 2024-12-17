@@ -280,6 +280,34 @@ def load_category_mapping(file_path):
 
     return category_mapping
 
+def format_features(attributes):
+    # Spłaszczenie listy słowników do jednego słownika
+    flattened_attributes = {}
+    for item in attributes:
+        flattened_attributes.update(item)
+
+    # Formatuj cechy w formacie wymaganym przez PrestaShop
+    formatted_features = []
+    position = 1
+    for key, value in flattened_attributes.items():
+        formatted_features.append(f"{key}:{value}:{position}")
+        position += 1
+
+    return ",".join(formatted_features)
+
+def attributes_to_string(attributes):
+    # Nagłówek tabeli
+    html = "<h2>SZCZEGÓŁY PRODUKTU I ZALECENIA</h2>\n<table>\n"
+
+    for attr in attributes:
+        for key, value in attr.items():
+            html += f"  <tr><td><strong>{key}</strong></td><td>{value}</td></tr>\n"
+
+    html += "</table>"
+
+    return html
+
+
 def save(attributes, category, name, price, img_small_url, img_orginal_url):
     global products_category_tab, product_id, CATEGORY_ID_MAP
 
@@ -290,47 +318,33 @@ def save(attributes, category, name, price, img_small_url, img_orginal_url):
 
     price = price.replace("zł", "").replace(",", ".").strip()
 
-    def format_features(attributes):
-        # Spłaszczenie listy słowników do jednego słownika
-        flattened_attributes = {}
-        for item in attributes:
-            flattened_attributes.update(item)
-
-        # Formatuj cechy w formacie wymaganym przez PrestaShop
-        formatted_features = []
-        position = 1
-        for key, value in flattened_attributes.items():
-            formatted_features.append(f"{key}:{value}:{position}")
-            position += 1
-
-        return ",".join(formatted_features)
-
-    features = format_features(attributes)
+    attributes_string = attributes_to_string(attributes)
 
     prestashop_columns = [
         "Product ID", "Active (0/1)", "Name *", "Categories (x,y,z...)", "Price tax excluded",
         "Quantity", "Minimal quantity", "Low stock level", "Send me an email when the quantity is under this level",
         "Available for order (0 = No, 1 = Yes)", "Condition", "Show price (0 = No, 1 = Yes)",
-        "Image URLs (x,y,z...)", "Reference #"
+        "Image URLs (x,y,z...)", "Description", "Reference #"
     ]
 
     image_url = f"/var/www/html/img/{clean_string(name)}_original.jpg"
 
     prestashop_data = {
-        "Product ID": product_id,  # ID produktu
-        "Active (0/1)": 1,  # Produkt aktywny
-        "Name *": name,  # Nazwa produktu
-        "Categories (x,y,z...)": category_id,  # ID lub nazwa kategorii
-        "Price tax excluded": price,  # Cena netto
-        "Quantity": 10,  # Ilość dostępnych sztuk
-        "Minimal quantity": 1,  # Minimalna ilość zamówienia
-        "Low stock level": 0,  # Niski poziom produktów w magazynie
-        "Send me an email when the quantity is under this level": 0,  # Powiadomienia e-mail
-        "Available for order (0 = No, 1 = Yes)": 1,  # Produkt dostępny do zamówienia
-        "Condition": "new",  # Stan produktu (nowy)
-        "Show price (0 = No, 1 = Yes)": 1,  # Wyświetlanie ceny
-        "Image URLs (x,y,z...)": image_url,  # URL zdjęcia
-        "Reference #": f"REF{product_id:03}"  # Unikalny numer referencyjny
+        "Product ID": product_id,
+        "Active (0/1)": 1,
+        "Name *": name,
+        "Categories (x,y,z...)": category_id,
+        "Price tax excluded": price,
+        "Quantity": 10,
+        "Minimal quantity": 1,
+        "Low stock level": 0,
+        "Send me an email when the quantity is under this level": 0,
+        "Available for order (0 = No, 1 = Yes)": 1,
+        "Condition": "new",
+        "Show price (0 = No, 1 = Yes)": 1,
+        "Image URLs (x,y,z...)": image_url,
+        "Description": attributes_string,  # Dodanie wygenerowanego opisu HTML
+        "Reference #": f"REF{product_id:03}"
     }
 
     product_id = product_id + 1

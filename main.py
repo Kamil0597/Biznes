@@ -12,10 +12,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import time
-
+SET_PROD_NUM = 1000
 CATEGORY_ID_MAP = {}
-MAX_REPEATS = 2
-
+MAX_REPEATS = 5
+count_prod = 0
 
 # URL strony
 URLS = [
