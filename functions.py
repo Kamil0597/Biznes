@@ -3,16 +3,70 @@ import csv
 import time
 from telnetlib import EC
 
+import unicodedata
+import re
+
 import requests
-from selenium import webdriver
 from selenium.common import NoSuchElementException
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 from selenium.common import TimeoutException
-from config import products_category_tab
+from config import products_category_tab, CATEGORY_ID_MAP
+
+
+
+folder_name = "scrapped_data"
+images_folder_name = os.path.join(folder_name, "images")
+data_folder_name = os.path.join(folder_name, "data")
+product_id = 1
+
+
+CATEGORY_ID_MAP = {}
+
+def initialize_category_map(category_map):
+    global CATEGORY_ID_MAP
+    CATEGORY_ID_MAP = category_map
+
+
+def clean_string(input_string):
+    input_string = input_string.replace('ł', 'l').replace('Ł', 'L')
+
+    normalized = unicodedata.normalize('NFKD', input_string)
+    without_polish = ''.join([c if not unicodedata.combining(c) else '' for c in normalized])
+
+    cleaned = re.sub(r'[^\w\-]', '', without_polish.replace(" ", "_"))
+
+    return cleaned
+
+
+def load_category_mapping(file_path):
+    """
+    Wczytuje plik CSV z kategoriami i tworzy mapę nazwa_kategorii -> ID_kategorii.
+    """
+    category_mapping = {}
+    try:
+        with open(file_path, mode='r', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                category_name = row['Name *'].strip()
+                category_id = row['Category ID'].strip()
+                category_mapping[category_name] = category_id
+    except Exception as e:
+        print(f"Błąd podczas wczytywania pliku kategorii: {e}")
+
+    return category_mapping
+
+
+def make_dirs():
+    directories = [folder_name, images_folder_name, data_folder_name]
+
+    for directory in directories:
+        if not os.path.isdir(directory):
+            os.makedirs(directory, exist_ok=True)
+            print(f"Folder {directory} został utworzony.")
+        else:
+            print(f"Folder {directory} już istnieje.")
+
 
 def tmp(driver):
 
@@ -22,8 +76,36 @@ def tmp(driver):
     for product in soup.find_all('div', {'data-product-id': True}):
         try:
 
-            # Pobieranie kategorii
             category = product.get('data-category', '').strip()
+
+            if category in ["Gabo Wool Fine Highland Wool", "Gabo Wool Fine Merino", "Fog Gabo Wool"]:
+                category = "Gabo Wool"
+            elif category in [
+                "Drops Daisy", "Drops Air", "Drops Alaska", "Drops Alpaca", "Drops Alpaca Boucle",
+                "Drops Andes", "Drops Baby Merino", "Drops BabyAlpaca Silk", "Drops Belle",
+                "Drops Big Delight", "Drops Big Merino", "Drops Brushed Alpaca Silk", "Drops Bomull - Lin",
+                "Drops Cotton Light", "Drops Cotton Merino", "Drops Eskimo", "Drops Fabel", "Drops Flora",
+                "Drops Kid-Silk", "Drops Lima", "Drops Merino Extra Fine", "Drops Melody", "Drops Muskat",
+                "Drops Nepal", "Drops Nord", "Drops Bomull - Lin", "Drops Paris"
+            ]:
+                category = "Włóczki DROPS"
+            elif category in [
+                "Sznurek skręcany, Bobbiny, 1,5mm", "sznurek bawełniany 3mm", "Sznurek bawełniany, skręcany, 5mm",
+                "Sznurek bawełniany, skręcany, 3mm", "Sznurek do makramy, 3ply, 1,5mm",
+                "Sznurek do makramy, 3ply, 3mm", "sznurek bawełniany 5mm", "Sznurek bawełniany 9mm",
+                "Sznurek skręcany, 9mm"
+            ]:
+                category = "Bobbiny"
+            elif category in [
+                "Sznurki Macrame Cotton 2mm", "Macrame Cotton", "Macrame Cotton Lurex",
+                "Sznurki Macrame Cotton Jazzy, 2mm", "Sznurki Macrame Cotton Lurex 2mm",
+                "Sznurki Macrame Cord 3mm", "Sznurki Macrame Cord 5mm"
+            ]:
+                category = "Sznurki plecione"
+            if category not in CATEGORY_ID_MAP:
+                print(category)
+                continue
+
 
             name_tag = product.find('a', class_='prodname')
             name = name_tag.get('title', '').strip() if name_tag else ''
@@ -114,7 +196,7 @@ def get_product_attributes(driver):
     return attributes, img_original_url
 
 def open_product_and_get_data(product_url, driver):
-    # Otwieramy stronę produktu w nowym oknie
+
     driver.execute_script("window.open(arguments[0]);", product_url)
     driver.switch_to.window(driver.window_handles[1])  # Przełączamy się na nowe okno
 
@@ -130,115 +212,285 @@ def open_product_and_get_data(product_url, driver):
         attributes = []
 
     finally:
-        # Zamknięcie okna i powrót do głównej strony kategorii
+
         driver.close()
         driver.switch_to.window(driver.window_handles[0])
 
     return attributes, img_original_url
 
 def generate_csv_for_categories_and_subcategories(driver):
-    with open('categories.csv', mode='w', newline='', encoding='utf-8') as category_file:
+
+    file_path = os.path.join(folder_name, 'categories.csv')
+    with open(file_path, mode='w', newline='', encoding='utf-8') as category_file:
 
         category_writer = csv.writer(category_file)
 
-        category_writer.writerow(['Category Name', 'Category URL'])
+        # Nagłówki do pliku CSV
+        category_writer.writerow([
+            'Category ID', 'Active (0/1)', 'Name *', 'Parent category',
+            'Root category (0/1)', 'Description', 'Meta title',
+            'Meta keywords', 'Meta description', 'URL rewritten', 'Image URL'
+        ])
 
         # Szukanie głównych kategorii
         categories = driver.find_elements("xpath", "//ul[@class='standard']/li")
         category_list = []
+        index = 3  # Początkowy ID kategorii
+
         for category in categories:
             try:
                 link_element = category.find_element("tag name", "a")
                 name = link_element.text
                 category_url = link_element.get_attribute("href")
-                category_list.append((name, category_url))
-                category_writer.writerow([name, category_url])
+
+                category_list.append((index, name, category_url))
+
+                # Zapisz główną kategorię
+                category_writer.writerow([
+                    index, 1, name, "Strona główna", 0, '',
+                    f'Meta title {name}', f'Meta keywords {name}',
+                    f'Meta description {name}',
+                    name.lower().replace(" ", "-"), ''
+                ])
+                index += 1
 
             except NoSuchElementException as e:
                 print(
-                    f'Nie udało się pobrać danych dla kategorii {category.get_attribute("id") if category else "Brak ID"}: {e}')
-        for name, category_url in category_list:
+                    f'Nie udało się pobrać danych dla kategorii {category.get_attribute("id") if category else "Brak ID"}: {e}'
+                )
+
+        # Pobieranie podkategorii
+        for cat_id, name, category_url in category_list:
             driver.get(category_url)
-
-            open_subcategories(driver, name)
-
+            index = open_subcategories(driver, name, cat_id, index, category_writer)
 
 
-def open_subcategories(driver, name):
-    sanitized_name = name.replace("/", "_").replace("\\", "_")
-
-    elements = driver.find_elements("css selector", "li.current a")
+def open_subcategories(driver, parent_name, parent_id, start_index, category_writer):
     soup = BeautifulSoup(driver.page_source, 'html.parser')
+    category_elements = soup.select("li.current ul li[id^='category_']")
 
-    if not elements:
-        print(f"Element 'li.current a' nie istnieje na stronie dla kategorii: {name}")
-        driver.back()
-        return
-    with open(f'subcategories_of_{sanitized_name}.csv', mode='w', newline='', encoding='utf-8') as file:
-        writer = csv.writer(file)
-        writer.writerow(['Subcategory Name'])
-        category_elements = soup.select("li.current ul li[id^='category_']")
+    for element in category_elements:
+        try:
+            # Pobierz nazwę i URL podkategorii
+            link_element = element.find("a")
+            subcategory_name = link_element.text.strip()
+            subcategory_url = link_element.get("href")
 
-        for element in category_elements:
-            category_id = element.get("id")
+            # Zapisz podkategorię w pliku CSV
+            category_writer.writerow([
+                start_index, 1, subcategory_name, parent_name, 0, '',
+                f'Meta title {subcategory_name}', f'Meta keywords {subcategory_name}',
+                f'Meta description {subcategory_name}',
+                subcategory_name.lower().replace(" ", "-"), ''
+            ])
+            start_index += 1
 
-            try:
-                link_element = element.find("a")
-                name = link_element.text.strip()
-                writer.writerow([name])
+            # Wejdź głębiej, jeśli są kolejne podkategorie
+            driver.get(subcategory_url)
+            start_index = open_subcategories(driver, subcategory_name, start_index, parent_id, category_writer)
+        except Exception as e:
+            print(f"Nie udało się pobrać podkategorii: {e}")
 
-            except:
-                print("Brak linku w elemencie:", element.get_attribute("id"))
-        driver.back()
+    driver.back()
+    return start_index
+
+def load_category_mapping(file_path):
+    category_mapping = {}
+    try:
+        with open(file_path, mode='r', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                category_name = row['Name *'].strip()
+                category_id = row['Category ID'].strip()
+                category_mapping[category_name] = category_id
+    except Exception as e:
+        print(f"Błąd podczas wczytywania pliku kategorii: {e}")
+
+    return category_mapping
+
+def format_features(attributes):
+    # Spłaszczenie listy słowników do jednego słownika
+    flattened_attributes = {}
+    for item in attributes:
+        flattened_attributes.update(item)
+
+    # Formatuj cechy w formacie wymaganym przez PrestaShop
+    formatted_features = []
+    position = 1
+    for key, value in flattened_attributes.items():
+        formatted_features.append(f"{key}:{value}:{position}")
+        position += 1
+
+    return ",".join(formatted_features)
+
+def attributes_to_string(attributes):
+    # Nagłówek tabeli
+    html = "<h2>SZCZEGÓŁY PRODUKTU I ZALECENIA</h2>\n<table>\n"
+
+    for attr in attributes:
+        for key, value in attr.items():
+            html += f"  <tr><td><strong>{key}</strong></td><td>{value}</td></tr>\n"
+
+    html += "</table>"
+
+    return html
+
+def generate_filtered_categories(product_csv, category_csv, output_csv):
+    product_categories = set()
+
+    # Odczytanie pliku z produktami
+    with open(product_csv, mode='r', encoding='utf-8') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            category_ids = row["Categories (x,y,z...)"].split(",")
+            for cat_id in category_ids:
+                if cat_id.strip():
+                    product_categories.add(int(cat_id.strip()))
+
+    # Tworzenie nowego pliku z kategoriami
+    with open(category_csv, mode='r', encoding='utf-8') as infile, open(output_csv, mode='w', encoding='utf-8',
+                                                                        newline='') as outfile:
+        reader = csv.DictReader(infile)
+        fieldnames = ["Category ID", "Active (0/1)", "Name *", "Parent category",
+                      "Root category (0/1)", "Description", "Meta title",
+                      "Meta keywords", "Meta description", "URL rewritten", "Image URL"]
+
+        writer = csv.DictWriter(outfile, fieldnames=fieldnames)
+        writer.writeheader()
+
+        # Filtrowanie kategorii
+        for row in reader:
+            if int(row["Category ID"]) in product_categories:
+                writer.writerow({
+                    "Category ID": row["Category ID"],
+                    "Active (0/1)": row["Active (0/1)"],
+                    "Name *": row["Name *"],
+                    "Parent category": row["Parent category"],
+                    "Root category (0/1)": row["Root category (0/1)"],
+                    "Description": row["Description"],
+                    "Meta title": row["Meta title"],
+                    "Meta keywords": row["Meta keywords"],
+                    "Meta description": row["Meta description"],
+                    "URL rewritten": row["URL rewritten"],
+                    "Image URL": row["Image URL"]
+                })
+
+    print(f"Plik {output_csv} został utworzony z filtrowanymi kategoriami.")
+
 
 def save(attributes, category, name, price, img_small_url, img_orginal_url):
-    global products_category_tab
+    global products_category_tab, product_id, CATEGORY_ID_MAP
+
+    category_id = CATEGORY_ID_MAP.get(category, "0")
 
 
     mode = 'a' if category in products_category_tab else 'w'
     file_exists = category in products_category_tab
 
-    flattened_attributes = {}
-    for attr in attributes:
-        flattened_attributes.update(attr)
+    
+    price = price.replace("zł", "").replace(",", ".").strip()
 
-    flattened_attributes = {'Nazwa': name, 'Cena': price, 'Linki do miniaturki': ', '.join(img_small_url),'Link do orginalnego zdjęcia': ', '.join(img_orginal_url) ,**flattened_attributes}
+    attributes_string = attributes_to_string(attributes)
+
+    prestashop_columns = [
+        "Product ID", "Active (0/1)", "Name *", "Categories (x,y,z...)", "Price tax excluded",
+        "Quantity", "Minimal quantity", "Low stock level", "Send me an email when the quantity is under this level",
+        "Available for order (0 = No, 1 = Yes)", "Condition", "Show price (0 = No, 1 = Yes)",
+        "Image URLs (x,y,z...)", "Description", "Reference #"
+    ]
+
+    image_url = f"/var/www/html/img/{clean_string(name)}_original.jpg"
+
+    prestashop_data = {
+        "Product ID": product_id,
+        "Active (0/1)": 1,
+        "Name *": name,
+        "Categories (x,y,z...)": category_id,
+        "Price tax excluded": price,
+        "Quantity": 10,
+        "Minimal quantity": 1,
+        "Low stock level": 0,
+        "Send me an email when the quantity is under this level": 0,
+        "Available for order (0 = No, 1 = Yes)": 1,
+        "Condition": "new",
+        "Show price (0 = No, 1 = Yes)": 1,
+        "Image URLs (x,y,z...)": image_url,
+        "Description": attributes_string,  # Dodanie wygenerowanego opisu HTML
+        "Reference #": f"REF{product_id:03}"
+    }
+
+    product_id = product_id + 1
 
     save_img(img_small_url, img_orginal_url, category, name)
 
-    with open(f'{category}.csv', mode=mode, newline='', encoding='utf-8') as file:
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    folder_path = os.path.join(current_directory, data_folder_name)
+
+
+    file_name = f'{category}.csv'
+    file_path = os.path.join(folder_path, file_name)
+    with open(file_path, mode=mode, newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
 
         if not file_exists:
-            writer.writerow(flattened_attributes.keys())  # Nagłówki z kluczy słownika
+            writer.writerow(prestashop_columns)  # Nagłówki z kluczy słownika
             products_category_tab.append(category)
+        writer.writerow([prestashop_data.get(col, "") for col in prestashop_columns])  # Wartości wiersza
 
-        writer.writerow(flattened_attributes.values())  # Wartości wiersza
+
+    general_file_name = 'all_products.csv'
+    general_file_path = os.path.join(folder_path, general_file_name)
+    general_file_exists = os.path.exists(general_file_path)
+    with open(general_file_path, mode='a', newline='', encoding='utf-8') as general_file:
+        writer = csv.writer(general_file)
+
+        if not general_file_exists:
+            writer.writerow(prestashop_columns)
+        writer.writerow([prestashop_data.get(col, "") for col in prestashop_columns])
 
 
 def save_img(img_small, img_original, category, name):
 
-    # Utworzenie katalogu dla danej kategorii, jeśli nie istnieje
-    if not os.path.exists(category):
-        os.makedirs(category)
 
-    def download_and_save_image(img_url, filename):
+    category_folder = os.path.join(images_folder_name, category)
+
+    if not os.path.exists(category_folder):
+        os.makedirs(category_folder)
+
+
+    # Folder ogólny na zdjęcia
+    general_folder = os.path.join(images_folder_name, 'all_images')
+
+    if not os.path.exists(general_folder):
+        os.makedirs(general_folder)
+    def download_and_save_image(img_url, category_filename, general_filename):
+
         try:
             response = requests.get(img_url)
             response.raise_for_status()
 
-            with open(filename, 'wb') as img_file:
+
+            # Zapis do folderu kategorii
+            with open(category_filename, 'wb') as img_file:
                 img_file.write(response.content)
 
-            print(f"Pobrano zdjęcie {img_url} do {filename}")
-        except requests.exceptions.RequestException as e:
-            print(f"Nie udało się pobrać zdjęcia {img_url}: exeption: {e}")
+            # Zapis do folderu ogólnego
+            with open(general_filename, 'wb') as img_file:
+                img_file.write(response.content)
 
+            print(f"Pobrano zdjęcie {img_url} i zapisano jako {category_filename} oraz {general_filename}")
+        except requests.exceptions.RequestException as e:
+            print(f"Nie udało się pobrać zdjęcia {img_url}: exception: {e}")
 
     if img_small:
-        file_name = os.path.join(category, f"{name}_small.jpg")
+        small_file_category = os.path.join(category_folder, f"{clean_string(name)}_small.jpg")
+        small_file_general = os.path.join(general_folder, f"{clean_string(name)}_small.jpg")
         img_small = img_small[0]
-        download_and_save_image(img_small, file_name)
+        download_and_save_image(img_small, small_file_category, small_file_general)
+        download_and_save_image(img_original, small_file_category, small_file_general)
+
     if img_original:
-        file_name = os.path.join(category, f"{name}_original.jpg")
-        download_and_save_image(img_original, file_name)
+        original_file_category = os.path.join(category_folder, f"{clean_string(name)}_original.jpg")
+        original_file_general = os.path.join(general_folder, f"{clean_string(name)}_original.jpg")
+        download_and_save_image(img_small, original_file_category, original_file_general)
+        download_and_save_image(img_original, original_file_category, original_file_general)
