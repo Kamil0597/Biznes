@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -8,54 +9,43 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class Main {
-    public static void main(String[] args) {
-        long startTime = System.currentTimeMillis();
-        WebDriver driver = setupDriver();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        driver.get("https://localhost/pl/");
-        try {
-            runTest1(driver, wait);
-            Thread.sleep(100);
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+public class ShopTests {
 
-            runTest2(driver, wait);
-            Thread.sleep(100);
+    public static WebDriver driver;
+    public static WebDriverWait wait;
+    String firstName = "Test";  //Needed for registration test
+    String lastName = "Test";   //Needed for registration test
+    String mail = "Test" + System.currentTimeMillis() + "@gmail.com";   //Needed for registration test
+    String password = "12345";  //Needed for registration test
+    String street = "ul. test"; //Needed for order test
+    String city = "TestCity";   //Needed for order test
+    String postCode = "12-345"; //Needed for order test
 
-            runTest3(driver, wait);
-            Thread.sleep(100);
-
-            runTest4(driver);
-            Thread.sleep(100);
-
-            runTests5_6_7_8(driver);
-            Thread.sleep(100);
-
-            runTest9(driver);
-            Thread.sleep(100);
-
-            runTest10(driver);
-        } catch (Exception e) {
-            System.out.println("Tests failed due to error: " + e.getMessage());
-        }
-        driver.quit();
-        long endTime = System.currentTimeMillis();
-        long duration = (endTime - startTime)/1000; // duration in seconds
-        long minutes = duration/60;
-        long seconds = duration%60;
-        System.out.println("Tests took " + minutes + " minutes and " + seconds + " seconds");
-    }
-
-    public static WebDriver setupDriver() {
+    @BeforeAll
+    public static void setupDriver() {
         FirefoxOptions fOptions = new FirefoxOptions();
         fOptions.setAcceptInsecureCerts(true);
 
-        return new FirefoxDriver(fOptions);
+        driver =  new FirefoxDriver(fOptions);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    }
+
+    @BeforeEach
+    public void returnToHomePage() {
+        driver.get("https://localhost/pl/");
+    }
+
+    @AfterAll
+    public static void closDriver() {
+        driver.quit();
     }
 
     /*
     Performs sequence of actions to add product at random quantities in range 1-10 to the cart and returns the quantity.
-     */
+    */
     public static int addProduct(WebDriver driver, WebDriverWait wait) {
         int num = ThreadLocalRandom.current().nextInt(1,10);
 
@@ -113,8 +103,10 @@ public class Main {
     /*
     Test includes adding 10 different products with various quantities ranging from 1 to 10,
     then overall count of products in the cart is checked against expected value to determine if test was passed.
-     */
-    public static void runTest1(WebDriver driver, WebDriverWait wait) throws InterruptedException {
+    */
+    @Test
+    @Order(1)
+    public void addProductsTest() throws InterruptedException {
         int quantity = selectCatAndProd(driver, wait,"category-3", "1");
         quantity += selectCatAndProd(driver, wait,"category-3", "2");
 
@@ -128,16 +120,16 @@ public class Main {
         quantity += selectCatAndProd(driver, wait,"category-9", "13");
         quantity += selectCatAndProd(driver, wait,"category-9", "14");
 
-        int value = getCartCount(driver);
-        System.out.println("test 1 expected: " + quantity + ", current value: " +
-                value + ", passed: " + (value == quantity));
+        assertEquals(quantity, getCartCount(driver));
     }
 
     /*
     Test includes searching for an item by its name using searchbar,
     then out of found items random one is added to the cart
-     */
-    public static void runTest2(WebDriver driver, WebDriverWait wait) throws InterruptedException {
+    */
+    @Test
+    @Order(2)
+    public void searchItemTest() throws InterruptedException {
         int initValue = getCartCount(driver);
 
         WebElement searchBar = driver.findElement(By.cssSelector(".ui-autocomplete-input"));
@@ -153,15 +145,15 @@ public class Main {
         product.click();
 
         int expected = addProduct(driver, wait) + initValue;
-        int result = getCartCount(driver);
-        System.out.println("test 2 expected: " + expected + ", current value: " +
-                result + ", passed: " + (result == expected));
+        assertEquals(expected, getCartCount(driver));
     }
 
     /*
     Test includes removing 3 products form the cart
-     */
-    public static void runTest3(WebDriver driver, WebDriverWait wait) {
+    */
+    @Test
+    @Order(3)
+    public void removeItemsTest() {
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[contains(text(),'Koszyk')]")))
                 .click();
         int expected = driver.findElements(By.cssSelector(".remove-from-cart")).size() - 3;
@@ -174,19 +166,15 @@ public class Main {
             driver.navigate().refresh();
         }
 
-        int result = driver.findElements(By.cssSelector(".remove-from-cart")).size();
-        System.out.println("test 3 expected: " + expected + ", current value: " +
-                result + ", passed: " + (result == expected));
+        assertEquals(expected, driver.findElements(By.cssSelector(".remove-from-cart")).size());
     }
 
     /*
     Test includes registering a new user, then checking if after registration proper first and last names are displayed.
-     */
-    public static void runTest4(WebDriver driver) {
-        String firstName = "Test";
-        String lastName = "Test";
-        String mail = "Test" + System.currentTimeMillis() + "@gmail.com";
-        String password = "12345";
+    */
+    @Test
+    @Order(4)
+    public void userRegistrationTest() {
         String expected = firstName + " " + lastName;
 
         driver.findElement(By.className("user-info")).click();
@@ -201,19 +189,15 @@ public class Main {
         driver.findElement(By.cssSelector("input[name='psgdpr']")).click();
         driver.findElement(By.xpath("//*[contains(text(),'Zapisz')]")).click();
 
-        String result = driver.findElement(By.className("account")).getText();
-        System.out.println("test 4 expected: " + expected + ", current value: " +
-                result + ", passed: " + (expected.compareTo(result) == 0));
+        assertEquals(expected, driver.findElement(By.className("account")).getText());
     }
 
     /*
     Tests that include starting ordering process, filling order forms and placing order.
-     */
-    public static void runTests5_6_7_8(WebDriver driver) throws InterruptedException {
-        String street = "ul. test";
-        String city = "TestCity";
-        String postCode = "12-345";
-
+    */
+    @Test
+    @Order(5)
+    public void orderTest() throws InterruptedException {
         driver.findElement(By.xpath("//*[contains(text(),'Koszyk')]")).click();
         driver.findElement(By.xpath("//*[contains(text(),'Przejdź do realizacji zamówienia')]")).click();
 
@@ -224,44 +208,50 @@ public class Main {
         Thread.sleep(100);
 
         selectRandomOption(driver,"delivery_option_");
-        boolean deliverySelected = checkIfOneSelected(driver, "delivery_option_");
-        System.out.println("test 6 expected: true" + ", current value: " + deliverySelected + ", passed: "
-                + deliverySelected);
+        assertTrue(checkIfOneSelected(driver, "delivery_option_"));
 
         driver.findElement(By.name("confirmDeliveryOption")).click(); //need find better selector
         Thread.sleep(100);
 
         selectRandomOption(driver, "payment-option-");
-        boolean paySelected = checkIfOneSelected(driver, "payment-option-");
-        System.out.println("test 7 expected: true" + ", current value: " + paySelected + ", passed: " + paySelected);
+        assertTrue(checkIfOneSelected(driver, "payment-option-"));
 
         driver.findElement(By.id("conditions_to_approve[terms-and-conditions]")).click();
         driver.findElement(By.xpath("//*[contains(text(),'Złóż zamówienie')]")).click();
 
-        String orderNo = driver.findElement(By.id("order-reference-value")).getText();
-        System.out.println("test 8 expected: any string" + ", current value: " +
-                orderNo + ", passed: " + !orderNo.isEmpty());
+        assertFalse(driver.findElement(By.id("order-reference-value")).getText().isEmpty());
     }
 
     /*
     Test that includes checking the status of the placed order, it is considered passed when there is an order present
     with status text, otherwise it is marked as failed.
-     */
-    public static void runTest9(WebDriver driver) {
+    */
+    @Test
+    @Order(6)
+    public void checkOrderStatusTest() {
         driver.findElement(By.className("account")).click();
         driver.findElement(By.id("history-link")).click();
         try{
-            String result = driver.findElement(By.cssSelector(".label.label-pill.bright")).getText();
-            System.out.println("test 9 expected: any string, result: " + result + " passed: true");
+            driver.findElement(By.cssSelector(".label.label-pill.bright"));
         }catch (NoSuchElementException e){
-            System.out.println("Test 9 failed, reason: There is no status to be checked.");
+            fail("Could not find any order status.");
         }
     }
 
-    public static void runTest10(WebDriver driver) throws InterruptedException {
+    /*
+    Test involves checking if invoice for a placed order is downloadable. It is considered passed if dedicated icon
+    exists and is clickable, otherwise the test is marked as failed.
+     */
+    @Test
+    @Order(7)
+    public void invoiceDownloadTest() {
         driver.findElement(By.className("account")).click();
         driver.findElement(By.id("history-link")).click();
-        driver.findElement(By.cssSelector(".test-sm-center.hidden-md-down>a")).click();
-        Thread.sleep(5000);
+        try {
+            driver.findElement(By.cssSelector(".test-sm-center.hidden-md-down>a")).click();
+            Thread.sleep(5000);
+        } catch (Exception e) {
+            fail("Could not download invoice:\n" + e.getMessage());
+        }
     }
 }
