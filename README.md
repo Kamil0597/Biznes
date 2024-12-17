@@ -25,7 +25,12 @@ Po zakończonej instalacji kontenerów uruchom skrypt, aby zakończyć konfigura
 ~~~
 docker exec -it prestashop /bin/bash -c "/var/www/html/conf/post_install.sh"
 ~~~
+
 ### Wczytaj backup
+Wyczyść startowe ustawienia prestashop
+~~~
+Get-Content scripts/clean_prestashop.sql | docker exec -i mysql-db mysql -u root -pprestashop prestashop
+~~~
 Przejdź do folderu `scripts` i uruchom skrypt
 ~~~
 ./restore_backup.sh
