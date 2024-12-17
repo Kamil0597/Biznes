@@ -307,6 +307,48 @@ def attributes_to_string(attributes):
 
     return html
 
+def generate_filtered_categories(product_csv, category_csv, output_csv):
+    product_categories = set()
+
+    # Odczytanie pliku z produktami
+    with open(product_csv, mode='r', encoding='utf-8') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            category_ids = row["Categories (x,y,z...)"].split(",")
+            for cat_id in category_ids:
+                if cat_id.strip():
+                    product_categories.add(int(cat_id.strip()))
+
+    # Tworzenie nowego pliku z kategoriami
+    with open(category_csv, mode='r', encoding='utf-8') as infile, open(output_csv, mode='w', encoding='utf-8',
+                                                                        newline='') as outfile:
+        reader = csv.DictReader(infile)
+        fieldnames = ["Category ID", "Active (0/1)", "Name *", "Parent category",
+                      "Root category (0/1)", "Description", "Meta title",
+                      "Meta keywords", "Meta description", "URL rewritten", "Image URL"]
+
+        writer = csv.DictWriter(outfile, fieldnames=fieldnames)
+        writer.writeheader()
+
+        # Filtrowanie kategorii
+        for row in reader:
+            if int(row["Category ID"]) in product_categories:
+                writer.writerow({
+                    "Category ID": row["Category ID"],
+                    "Active (0/1)": row["Active (0/1)"],
+                    "Name *": row["Name *"],
+                    "Parent category": row["Parent category"],
+                    "Root category (0/1)": row["Root category (0/1)"],
+                    "Description": row["Description"],
+                    "Meta title": row["Meta title"],
+                    "Meta keywords": row["Meta keywords"],
+                    "Meta description": row["Meta description"],
+                    "URL rewritten": row["URL rewritten"],
+                    "Image URL": row["Image URL"]
+                })
+
+    print(f"Plik {output_csv} został utworzony z filtrowanymi kategoriami.")
+
 
 def save(attributes, category, name, price, img_small_url, img_orginal_url):
     global products_category_tab, product_id, CATEGORY_ID_MAP

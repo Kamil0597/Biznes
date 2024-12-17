@@ -73,4 +73,5 @@ for url in URLS:
             break
 
 print("Scraper zakończył działanie dla wszystkich URL-i.")
+generate_filtered_categories('scrapped_data/data/all_products.csv','scrapped_data/categories.csv','filtered_categories.csv')
 driver.quit()
