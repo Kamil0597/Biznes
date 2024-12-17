@@ -31,6 +31,14 @@ for folder in "${FOLDERS_TO_BACKUP[@]}"; do
 
     if [ $? -eq 0 ]; then
         echo "Folder '$folder' restored successfully."
+        echo "Setting permissions to 777 for folder '$folder'..."
+        docker exec -i $PRESTASHOP_CONTAINER bash -c "chmod -R 777 /var/www/html/$folder"
+        if [ $? -eq 0 ]; then
+            echo "Permissions for '$folder' set to 777 successfully."
+        else
+            echo "Failed to set permissions for '$folder'."
+            exit 1
+        fi
     else
         echo "Failed to restore folder '$folder'."
         exit 1
