@@ -6,16 +6,13 @@ import unicodedata
 import re
 
 import requests
-from selenium import webdriver
 from selenium.common import NoSuchElementException
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 from selenium.common import TimeoutException
-from config import products_category_tab
-import uuid
+from config import products_category_tab, CATEGORY_ID_MAP
+
+
 
 folder_name = "scrapped_data"
 images_folder_name = os.path.join(folder_name, "images")
@@ -77,10 +74,34 @@ def tmp(driver):
 
     for product in soup.find_all('div', {'data-product-id': True}):
         try:
-            # Pobieranie kategorii
             category = product.get('data-category', '').strip()
 
+            if category in ["Gabo Wool Fine Highland Wool", "Gabo Wool Fine Merino", "Fog Gabo Wool"]:
+                category = "Gabo Wool"
+            elif category in [
+                "Drops Daisy", "Drops Air", "Drops Alaska", "Drops Alpaca", "Drops Alpaca Boucle",
+                "Drops Andes", "Drops Baby Merino", "Drops BabyAlpaca Silk", "Drops Belle",
+                "Drops Big Delight", "Drops Big Merino", "Drops Brushed Alpaca Silk", "Drops Bomull - Lin",
+                "Drops Cotton Light", "Drops Cotton Merino", "Drops Eskimo", "Drops Fabel", "Drops Flora",
+                "Drops Kid-Silk", "Drops Lima", "Drops Merino Extra Fine", "Drops Melody", "Drops Muskat",
+                "Drops Nepal", "Drops Nord", "Drops Bomull - Lin", "Drops Paris"
+            ]:
+                category = "Włóczki DROPS"
+            elif category in [
+                "Sznurek skręcany, Bobbiny, 1,5mm", "sznurek bawełniany 3mm", "Sznurek bawełniany, skręcany, 5mm",
+                "Sznurek bawełniany, skręcany, 3mm", "Sznurek do makramy, 3ply, 1,5mm",
+                "Sznurek do makramy, 3ply, 3mm", "sznurek bawełniany 5mm", "Sznurek bawełniany 9mm",
+                "Sznurek skręcany, 9mm"
+            ]:
+                category = "Bobbiny"
+            elif category in [
+                "Sznurki Macrame Cotton 2mm", "Macrame Cotton", "Macrame Cotton Lurex",
+                "Sznurki Macrame Cotton Jazzy, 2mm", "Sznurki Macrame Cotton Lurex 2mm",
+                "Sznurki Macrame Cord 3mm", "Sznurki Macrame Cord 5mm"
+            ]:
+                category = "Sznurki plecione"
             if category not in CATEGORY_ID_MAP:
+                print(category)
                 continue
 
             name_tag = product.find('a', class_='prodname')

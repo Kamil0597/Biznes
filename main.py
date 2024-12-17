@@ -14,7 +14,11 @@ from bs4 import BeautifulSoup
 import time
 SET_PROD_NUM = 1000
 CATEGORY_ID_MAP = {}
-MAX_REPEATS = 5
+WLOCZKI_REPEATS = 30
+SZNURKI_REPEATS = 15
+SZYDELKA_REPEATS = 4
+ZROBTOSAM_REPEATS = 4
+MAX_REPEATS = 0
 count_prod = 0
 
 # URL strony
@@ -30,7 +34,7 @@ driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 make_dirs()
 driver.get(URLS[0])
 # Generowanie kategorii i ładowanie mapowania
-generate_csv_for_categories_and_subcategories(driver)
+#generate_csv_for_categories_and_subcategories(driver)
 categories_csv_path = 'scrapped_data/categories.csv'
 CATEGORY_ID_MAP = load_category_mapping(categories_csv_path)
 initialize_category_map(CATEGORY_ID_MAP)
@@ -44,7 +48,14 @@ for url in URLS:
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'prodname')))
     tmp(driver)  # Wywołanie funkcji zapisującej dane dla bieżącej strony
 
-    # Przełączanie na kolejne strony w ramach bieżącego URL
+    if url == URLS[0]:
+        MAX_REPEATS = WLOCZKI_REPEATS
+    elif url == URLS[1]:
+        MAX_REPEATS = SZNURKI_REPEATS
+    elif url == URLS[2]:
+        MAX_REPEATS = SZYDELKA_REPEATS
+    elif url == URLS[3]:
+        MAX_REPEATS = ZROBTOSAM_REPEATS
     for i in range(MAX_REPEATS):
         try:
             # Znajdowanie przycisku "Następna strona" i pobranie linku
@@ -73,5 +84,4 @@ for url in URLS:
             break
 
 print("Scraper zakończył działanie dla wszystkich URL-i.")
-generate_filtered_categories('scrapped_data/data/all_products.csv','scrapped_data/categories.csv','filtered_categories.csv')
 driver.quit()
