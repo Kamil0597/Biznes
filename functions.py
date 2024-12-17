@@ -2,6 +2,7 @@ import os
 import csv
 import time
 from telnetlib import EC
+
 import unicodedata
 import re
 
@@ -74,6 +75,7 @@ def tmp(driver):
 
     for product in soup.find_all('div', {'data-product-id': True}):
         try:
+
             category = product.get('data-category', '').strip()
 
             if category in ["Gabo Wool Fine Highland Wool", "Gabo Wool Fine Merino", "Fog Gabo Wool"]:
@@ -103,6 +105,7 @@ def tmp(driver):
             if category not in CATEGORY_ID_MAP:
                 print(category)
                 continue
+
 
             name_tag = product.find('a', class_='prodname')
             name = name_tag.get('title', '').strip() if name_tag else ''
@@ -193,6 +196,7 @@ def get_product_attributes(driver):
     return attributes, img_original_url
 
 def open_product_and_get_data(product_url, driver):
+
     driver.execute_script("window.open(arguments[0]);", product_url)
     driver.switch_to.window(driver.window_handles[1])  # Przełączamy się na nowe okno
 
@@ -208,12 +212,14 @@ def open_product_and_get_data(product_url, driver):
         attributes = []
 
     finally:
+
         driver.close()
         driver.switch_to.window(driver.window_handles[0])
 
     return attributes, img_original_url
 
 def generate_csv_for_categories_and_subcategories(driver):
+
     file_path = os.path.join(folder_name, 'categories.csv')
     with open(file_path, mode='w', newline='', encoding='utf-8') as category_file:
 
@@ -236,6 +242,7 @@ def generate_csv_for_categories_and_subcategories(driver):
                 link_element = category.find_element("tag name", "a")
                 name = link_element.text
                 category_url = link_element.get_attribute("href")
+
                 category_list.append((index, name, category_url))
 
                 # Zapisz główną kategorię
@@ -376,9 +383,11 @@ def save(attributes, category, name, price, img_small_url, img_orginal_url):
 
     category_id = CATEGORY_ID_MAP.get(category, "0")
 
+
     mode = 'a' if category in products_category_tab else 'w'
     file_exists = category in products_category_tab
 
+    
     price = price.replace("zł", "").replace(",", ".").strip()
 
     attributes_string = attributes_to_string(attributes)
@@ -442,6 +451,7 @@ def save(attributes, category, name, price, img_small_url, img_orginal_url):
 
 def save_img(img_small, img_original, category, name):
 
+
     category_folder = os.path.join(images_folder_name, category)
 
     if not os.path.exists(category_folder):
@@ -454,9 +464,11 @@ def save_img(img_small, img_original, category, name):
     if not os.path.exists(general_folder):
         os.makedirs(general_folder)
     def download_and_save_image(img_url, category_filename, general_filename):
+
         try:
             response = requests.get(img_url)
             response.raise_for_status()
+
 
             # Zapis do folderu kategorii
             with open(category_filename, 'wb') as img_file:
