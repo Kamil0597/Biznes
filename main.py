@@ -14,51 +14,63 @@ from bs4 import BeautifulSoup
 import time
 
 CATEGORY_ID_MAP = {}
+MAX_REPEATS = 2
 
-# Inicjalizacja przeglądarki
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
 # URL strony
-url = 'https://wloczkowyswiat.pl/wloczki'
-driver.get(url)
+URLS = [
+    'https://wloczkowyswiat.pl/wloczki',
+    'https://wloczkowyswiat.pl/sznurki',
+    'https://wloczkowyswiat.pl/szydelka',
+    'https://wloczkowyswiat.pl/Zrob-to-sam'
+]
 
-WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'prodname')))
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
 make_dirs()
-
+driver.get(URLS[0])
+# Generowanie kategorii i ładowanie mapowania
 generate_csv_for_categories_and_subcategories(driver)
 categories_csv_path = 'scrapped_data/categories.csv'
 CATEGORY_ID_MAP = load_category_mapping(categories_csv_path)
 initialize_category_map(CATEGORY_ID_MAP)
-driver.get(url)
-tmp(driver)
 
-# Przełączanie na kolejne strony i zapisywanie danych
-while True:
-    try:
-        # Znajdowanie przycisku "Następna strona" i pobranie linku
-        next_button = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//li[@class='last']/a"))
-        )
-        next_page_url = next_button.get_attribute("href")
+# Przechodzenie przez listę URL-i
+for url in URLS:
+    print(f"Rozpoczęcie scrapowania dla URL: {url}")
+    driver.get(url)
 
-        # Jeśli link nie istnieje, kończymy pętlę
-        if not next_page_url:
-            print("Osiągnięto ostatnią stronę. Scraper zakończył działanie.")
+    # Czekamy na załadowanie strony
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'prodname')))
+    tmp(driver)  # Wywołanie funkcji zapisującej dane dla bieżącej strony
+
+    # Przełączanie na kolejne strony w ramach bieżącego URL
+    for i in range(MAX_REPEATS):
+        try:
+            # Znajdowanie przycisku "Następna strona" i pobranie linku
+            next_button = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, "//li[@class='last']/a"))
+            )
+            next_page_url = next_button.get_attribute("href")
+
+            # Jeśli link nie istnieje, kończymy pętlę
+            if not next_page_url:
+                print("Osiągnięto ostatnią stronę. Przechodzę do kolejnego URL.")
+                break
+
+            # Wypisanie przejścia na kolejną stronę
+            print(f"Przechodzenie na następną stronę: {next_page_url}")
+
+            # Przechodzenie na nową stronę
+            driver.get(next_page_url)
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'prodname')))
+
+            # Zapisanie danych z nowej strony
+            tmp(driver)
+
+        except NoSuchElementException:
+            print("Nie znaleziono przycisku 'Następna strona'. Przechodzę do kolejnego URL.")
             break
 
-        # Wypisanie przejścia na kolejną stronę
-        print(f"Przechodzenie na następną stronę: {next_page_url}")
-
-        # Przechodzenie na nową stronę
-        driver.get(next_page_url)
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'prodname')))  # Czekamy na załadowanie nowej strony
-
-        # Zapisanie danych z kolejnej strony
-        tmp(driver)
-
-    except NoSuchElementException:
-        print("Nie znaleziono przycisku 'Następna strona'. Scraper zakończył działanie.")
-        break
-
+print("Scraper zakończył działanie dla wszystkich URL-i.")
 driver.quit()

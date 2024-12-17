@@ -80,6 +80,9 @@ def tmp(driver):
             # Pobieranie kategorii
             category = product.get('data-category', '').strip()
 
+            if category not in CATEGORY_ID_MAP:
+                continue
+
             name_tag = product.find('a', class_='prodname')
             name = name_tag.get('title', '').strip() if name_tag else ''
             product_url = name_tag['href'] if name_tag else ''
