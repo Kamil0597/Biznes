@@ -16,14 +16,18 @@ public class ShopTests {
 
     public static WebDriver driver;
     public static WebDriverWait wait;
-    String firstName = "Test";  //Needed for registration test
-    String lastName = "Test";   //Needed for registration test
+    static int animDelay = 100;     //Delay in millis to wait out animations
+    static int refreshDelay = 300;  //Delay in millis to accommodate site refresh
+    static int dlDelay = 5000;      //Delay in millis to allow start of invoice download
+    static int maxItemCount = 6;    //Maximum quantity of items bought
+    String firstName = "Test";      //Needed for registration test
+    String lastName = "Test";       //Needed for registration test
     String mail = "Test" + System.currentTimeMillis() + "@gmail.com";   //Needed for registration test
-    String password = "12345";  //Needed for registration test
-    String street = "ul. test"; //Needed for order test
-    String city = "TestCity";   //Needed for order test
-    String postCode = "12-345"; //Needed for order test
-    String login = "jannowak@gmail.com"; //Needed for status and invoice download tests
+    String password = "12345";      //Needed for registration test
+    String street = "ul. test";     //Needed for order test
+    String city = "TestCity";       //Needed for order test
+    String postCode = "12-345";     //Needed for order test
+    String login = "jannowak@gmail.com";  //Needed for status and invoice download tests
 
 
     @BeforeAll
@@ -49,7 +53,7 @@ public class ShopTests {
     Performs sequence of actions to add product at random quantities in range 1-10 to the cart and returns the quantity.
     */
     public static int addProduct(WebDriver driver, WebDriverWait wait) {
-        int num = ThreadLocalRandom.current().nextInt(1,10);
+        int num = ThreadLocalRandom.current().nextInt(1, maxItemCount);
 
         WebElement quantity = driver.findElement(By.id("quantity_wanted"));
         quantity.sendKeys(Keys.CONTROL + "a");
@@ -69,7 +73,7 @@ public class ShopTests {
     public static int selectCatAndProd(WebDriver driver, WebDriverWait wait,
                                        String cat, String product) throws InterruptedException {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("blockcart-modal")));
-        Thread.sleep(100);
+        Thread.sleep(animDelay);
         wait.until(ExpectedConditions.elementToBeClickable(By.id(cat))).click();
 
         WebElement prod = driver.findElement(By.xpath("//*[@data-id-product='" + product + "']"));
@@ -141,7 +145,7 @@ public class ShopTests {
         searchBar.sendKeys("Druty");
         searchBar.sendKeys(Keys.ENTER);
 
-        Thread.sleep(300);
+        Thread.sleep(refreshDelay);
 
         wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("[data-id-product]")));
         List<WebElement> products = driver.findElements(By.cssSelector("[data-id-product]"));
@@ -210,13 +214,13 @@ public class ShopTests {
         driver.findElement(By.id("field-postcode")).sendKeys(postCode);
         driver.findElement(By.id("field-city")).sendKeys(city);
         driver.findElement(By.name("confirm-addresses")).click();
-        Thread.sleep(100);
+        Thread.sleep(animDelay);
 
         selectRandomOption(driver,"delivery_option_");
         assertTrue(checkIfOneSelected(driver, "delivery_option_"));
 
         driver.findElement(By.name("confirmDeliveryOption")).click(); //need find better selector
-        Thread.sleep(100);
+        Thread.sleep(animDelay);
 
         selectRandomOption(driver, "payment-option-");
         assertTrue(checkIfOneSelected(driver, "payment-option-"));
@@ -224,7 +228,12 @@ public class ShopTests {
         driver.findElement(By.id("conditions_to_approve[terms-and-conditions]")).click();
         driver.findElement(By.xpath("//*[contains(text(),'Złóż zamówienie')]")).click();
 
-        assertFalse(driver.findElement(By.id("order-reference-value")).getText().isEmpty());
+        try{
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.id("order-reference-value")));
+            assertFalse(driver.findElement(By.id("order-reference-value")).getText().isEmpty());
+        } catch (Exception e){
+            fail("Could not find order number.\n" + e.getMessage());
+        }
     }
 
     /*
@@ -239,7 +248,7 @@ public class ShopTests {
         try{
             driver.findElement(By.cssSelector(".label.label-pill.bright"));
         }catch (NoSuchElementException e){
-            fail("Could not find any order status.");
+            fail("Could not find any order status.\n" + e.getMessage());
         }
     }
 
@@ -261,7 +270,7 @@ public class ShopTests {
         driver.findElement(By.id("history-link")).click();
         try {
             driver.findElement(By.cssSelector(".test-sm-center.hidden-md-down>a")).click();
-            Thread.sleep(5000);
+            Thread.sleep(dlDelay);
         } catch (Exception e) {
             fail("Could not download invoice:\n" + e.getMessage());
         }
