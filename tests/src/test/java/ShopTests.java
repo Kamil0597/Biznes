@@ -23,7 +23,7 @@ public class ShopTests {
     String street = "ul. test"; //Needed for order test
     String city = "TestCity";   //Needed for order test
     String postCode = "12-345"; //Needed for order test
-    String login = "jannowak@gmail.com"; //needed for status and invoice download tests
+    String login = "jannowak@gmail.com"; //Needed for status and invoice download tests
 
 
     @BeforeAll
@@ -65,6 +65,7 @@ public class ShopTests {
         return num;
     }
 
+    //Selects a category and product
     public static int selectCatAndProd(WebDriver driver, WebDriverWait wait,
                                        String cat, String product) throws InterruptedException {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("blockcart-modal")));
@@ -82,6 +83,7 @@ public class ShopTests {
         return Integer.parseInt(cartCount.getText().replaceAll("[^0-9]",""));
     }
 
+    //Selects random option of either delivery or payment
     public static void selectRandomOption(WebDriver driver, String option) {
         List<WebElement> options = driver.findElements(By.cssSelector("[id^='" + option + "']"));
         options.removeIf(e -> !Objects.requireNonNull(e.getAttribute("id")).matches(".*\\d$"));
@@ -91,6 +93,7 @@ public class ShopTests {
             button.click();
     }
 
+    //Checks if at least one option is selected, use on either delivery or payment options
     public static boolean checkIfOneSelected(WebDriver driver, String option) {
         List<WebElement> options = driver.findElements(By.cssSelector("[id^='" + option + "']"));
         options.removeIf(e -> !Objects.requireNonNull(e.getAttribute("id")).matches(".*\\d$"));
