@@ -19,7 +19,7 @@ public class ShopTests {
     static int animDelay = 100;     //Delay in millis to wait out animations
     static int refreshDelay = 300;  //Delay in millis to accommodate site refresh
     static int dlDelay = 5000;      //Delay in millis to allow start of invoice download
-    static int maxItemCount = 6;    //Maximum quantity of items bought
+    static int maxItemCount = 4;    //Maximum quantity of items bought
     String firstName = "Test";      //Needed for registration test
     String lastName = "Test";       //Needed for registration test
     String mail = "Test" + System.currentTimeMillis() + "@gmail.com";   //Needed for registration test
@@ -198,6 +198,12 @@ public class ShopTests {
         driver.findElement(By.cssSelector("input[name='psgdpr']")).click();
         driver.findElement(By.xpath("//*[contains(text(),'Zapisz')]")).click();
 
+        try{
+            assertFalse(wait.until(ExpectedConditions
+                    .presenceOfElementLocated(By.id("order-reference-value"))).getText().isEmpty());
+        } catch (Exception e){
+            fail("Could not find User name and lastname.\n" + e.getMessage());
+        }
         assertEquals(expected, driver.findElement(By.className("account")).getText());
     }
 
@@ -229,8 +235,8 @@ public class ShopTests {
         driver.findElement(By.xpath("//*[contains(text(),'Złóż zamówienie')]")).click();
 
         try{
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.id("order-reference-value")));
-            assertFalse(driver.findElement(By.id("order-reference-value")).getText().isEmpty());
+            assertFalse(wait.until(ExpectedConditions
+                    .presenceOfElementLocated(By.id("order-reference-value"))).getText().isEmpty());
         } catch (Exception e){
             fail("Could not find order number.\n" + e.getMessage());
         }
