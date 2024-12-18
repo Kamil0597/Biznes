@@ -41,6 +41,7 @@ services:
     volumes:
       - prestashop:/var/www/html
       - ./conf:/var/www/html/conf
+      - ./img:/var/www/html/img
 
   phpmyadmin:
     container_name: phpmyadmin
