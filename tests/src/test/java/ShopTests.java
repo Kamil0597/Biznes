@@ -107,18 +107,18 @@ public class ShopTests {
     @Test
     @Order(1)
     public void addProductsTest() throws InterruptedException {
-        int quantity = selectCatAndProd(driver, wait,"category-3", "1");
-        quantity += selectCatAndProd(driver, wait,"category-3", "2");
+        int quantity = selectCatAndProd(driver, wait,"category-4", "22");
+        quantity += selectCatAndProd(driver, wait,"category-4", "1");
 
-        quantity += selectCatAndProd(driver, wait,"category-6", "6");
-        quantity += selectCatAndProd(driver, wait,"category-6", "7");
-        quantity += selectCatAndProd(driver, wait,"category-6", "10");
-        quantity += selectCatAndProd(driver, wait,"category-6", "11");
-        quantity += selectCatAndProd(driver, wait,"category-6", "18");
+        quantity += selectCatAndProd(driver, wait,"category-7", "543");
+        quantity += selectCatAndProd(driver, wait,"category-7", "463");
+        quantity += selectCatAndProd(driver, wait,"category-7", "402");
+        quantity += selectCatAndProd(driver, wait,"category-7", "544");
+        quantity += selectCatAndProd(driver, wait,"category-7", "464");
 
-        quantity += selectCatAndProd(driver, wait,"category-9", "12");
-        quantity += selectCatAndProd(driver, wait,"category-9", "13");
-        quantity += selectCatAndProd(driver, wait,"category-9", "14");
+        quantity += selectCatAndProd(driver, wait,"category-7", "404");
+        quantity += selectCatAndProd(driver, wait,"category-7", "469");
+        quantity += selectCatAndProd(driver, wait,"category-7", "405");
 
         assertEquals(quantity, getCartCount(driver));
     }
@@ -133,7 +133,7 @@ public class ShopTests {
         int initValue = getCartCount(driver);
 
         WebElement searchBar = driver.findElement(By.cssSelector(".ui-autocomplete-input"));
-        searchBar.sendKeys("humm");
+        searchBar.sendKeys("Druty");
         searchBar.sendKeys(Keys.ENTER);
 
         Thread.sleep(300);
