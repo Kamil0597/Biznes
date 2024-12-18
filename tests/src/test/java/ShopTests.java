@@ -199,12 +199,11 @@ public class ShopTests {
         driver.findElement(By.xpath("//*[contains(text(),'Zapisz')]")).click();
 
         try{
-            assertFalse(wait.until(ExpectedConditions
-                    .presenceOfElementLocated(By.id("order-reference-value"))).getText().isEmpty());
+            assertEquals(expected, wait.until(ExpectedConditions
+                    .presenceOfElementLocated(By.className("account"))).getText());
         } catch (Exception e){
             fail("Could not find User name and lastname.\n" + e.getMessage());
         }
-        assertEquals(expected, driver.findElement(By.className("account")).getText());
     }
 
     /*
