@@ -23,6 +23,8 @@ public class ShopTests {
     String street = "ul. test"; //Needed for order test
     String city = "TestCity";   //Needed for order test
     String postCode = "12-345"; //Needed for order test
+    String login = "jannowak@gmail.com"; //needed for status and invoice download tests
+
 
     @BeforeAll
     public static void setupDriver() {
@@ -245,6 +247,13 @@ public class ShopTests {
     @Test
     @Order(7)
     public void invoiceDownloadTest() {
+        driver.findElement(By.className("logout")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.className("user-info"))).click();
+
+        driver.findElement(By.id("field-email")).sendKeys(login);
+        driver.findElement(By.id("field-password")).sendKeys(password);
+        driver.findElement(By.id("submit-login")).click();
+
         driver.findElement(By.className("account")).click();
         driver.findElement(By.id("history-link")).click();
         try {
