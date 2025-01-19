@@ -41,7 +41,7 @@ public class ShopTests {
 
     @BeforeEach
     public void returnToHomePage() {
-        driver.get("https://localhost/pl/");
+        driver.get("https://localhost:18442/pl/");
     }
 
     @AfterAll
