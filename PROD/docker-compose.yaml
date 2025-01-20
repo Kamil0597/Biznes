@@ -12,6 +12,11 @@ services:
       DB_PASSWD: student
     networks:
       - admin-mysql_default
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
 
 networks:
   admin-mysql_default:
