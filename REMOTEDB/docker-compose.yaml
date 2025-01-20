@@ -1,0 +1,30 @@
+services:
+  mysql:
+    container_name: admin-mysql_db
+    image: mariadb:11.5.2
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: student
+      MYSQL_DATABASE: BE_184429
+    networks:
+      - admin-mysql_default
+
+  phpmyadmin:
+    container_name: phpmyadmin_test
+    image: phpmyadmin/phpmyadmin:5.2.1
+    restart: always
+    ports:
+      - 8082:80
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: student
+      PMA_PORT: 3306
+    networks:
+      - admin-mysql_default
+
+networks:
+  admin-mysql_default:
+    driver: bridge
+    name: admin-mysql_default
+

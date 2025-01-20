@@ -1,0 +1,56 @@
+services:
+  mysql:
+    container_name: admin-mysql_db
+    image: mariadb:11.5.2
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: student
+      MYSQL_DATABASE: BE_184429
+    networks:
+      - prestashop_network
+
+  prestashop:
+    container_name: prestashop
+    image: prestashop/prestashop:1.7.8
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - 18442:443
+    environment:
+      DB_SERVER: admin-mysql_db
+      DB_NAME: BE_184429
+      DB_USER: root
+      DB_PASSWD: student
+      PS_FOLDER_ADMIN: admin-dev
+      PS_FOLDER_INSTALL: install-dev
+      PS_DEV_MODE: 1
+      PS_INSTALL_AUTO: 1
+      PS_SHOP_NAME: "Wloczkowy Swiat"
+      PS_LANGUAGE: pl
+      PS_COUNTRY: PL
+      ADMIN_MAIL: wloczkowyswiat.prestashop@gmail.com
+      ADMIN_PASSWD: prestashop
+      PS_DOMAIN: localhost:18442
+      PS_ENABLE_SSL: 1
+    volumes:
+      - ../prestashop_files:/var/www/html
+    networks:
+      - prestashop_network
+    
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin:5.2.1
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: student
+      PMA_PORT: 3306
+    networks:
+      - prestashop_network
+       
+networks:
+    prestashop_network:
