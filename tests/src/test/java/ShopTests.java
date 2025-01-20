@@ -274,7 +274,8 @@ public class ShopTests {
         driver.findElement(By.className("account")).click();
         driver.findElement(By.id("history-link")).click();
         try {
-            driver.findElement(By.cssSelector(".test-sm-center.hidden-md-down>a")).click();
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@href='" +
+                    "https://localhost" + ":18442/pl/index.php?controller=pdf-invoice&id_order=7']"))).click();
             Thread.sleep(dlDelay);
         } catch (Exception e) {
             fail("Could not download invoice:\n" + e.getMessage());
