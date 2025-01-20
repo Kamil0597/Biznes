@@ -16,45 +16,37 @@ git clone https://github.com/Kamil0597/Biznes.git
 ~~~
 ### 
 
-### Uruchom kontenery  
+### Wersja DEV
+#### Uruchomienie
+Przejdź do folderu DEV/configurations  
+Uruchom skrypt build.sh  
+Po uruchomieniu się kontenerów uruchom odpowiednie komendy z pliku commands.txt
+#### Zapisanie zmian
+Po wprowadzeniu zmian w sklepie przed wyłączeniem kontenerów utwórz aktualny dump bazy.  
+Komenda na utworzenie dump.sql znajduje się w pliku commands.txt
+#### Utworzenie obrazu z Dockerfile
+Przejdź do folderu DEV  
+Utwórz obraz  
 ~~~
-docker-compose up
-~~~
-### Konfiguracja po instalacji  
-Po zakończonej instalacji kontenerów uruchom skrypt, aby zakończyć konfigurację:
-~~~
-docker exec -it prestashop /bin/bash -c "/var/www/html/conf/post_install.sh"
+docker build -t <image_name>:<image_tag> .
 ~~~
 
-### Wczytaj backup
-Przejdź do folderu `scripts` i uruchom skrypt
-~~~
-./restore_backup.sh
-~~~
 ### Strona jest dostępna pod adresem  
-https://localhost/
+https://localhost:18442
 ## Panel administracyjny i phpMyAdmin
 
 Panel administracyjny dostępny pod adresem:  
-[https://localhost/admin123/](https://localhost/admin123/)  
+[https://localhost:18442/](https://localhost:18442/admin-dev/)  
 
 phpMyAdmin dostępny pod adresem:  
-[http://localhost:8001/](http://localhost:8001/)
+[http://localhost:8081/](http://localhost:8081/)
 
 ### Dane logowania
 
 | Usługa               | Login                              | Hasło       |
 |----------------------|------------------------------------|-------------|
 | Panel administracyjny | wloczkowyswiat.prestashop@gmail.com | prestashop |
-| phpMyAdmin           | root                              | prestashop  |
-## Tworzenie backupu
-
-Aby utworzyć backup, przejdź do folderu `scripts` i uruchom skrypt:
-~~~
-./create_backup.sh
-~~~
-
-**Uwaga:** Uruchomienie tego skryptu nadpisze poprzedni zapisany backup.
+| phpMyAdmin           | root                              | student  |
 
 
 
