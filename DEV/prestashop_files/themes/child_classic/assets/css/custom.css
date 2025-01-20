@@ -1,0 +1,76 @@
+/*
+ * Custom code goes here.
+ * A template should always ship with an empty custom.css
+ */
+ #header{ 
+    background-color: black !important; 
+    color: white;
+    font-size: small;
+}
+
+#header *{
+    background-color: inherit !important;
+    color: inherit !important;
+}
+
+#header .header-nav{
+    border-bottom: none;
+    max-height: none;
+}
+
+#header .header-nav .right-nav {
+    flex-wrap: wrap;
+}
+
+#header .header-top{
+    padding: 0rem 0;
+    padding-bottom: 1.25rem;
+}
+
+#_desktop_language_selector{
+    width: 10%;
+}
+
+#_desktop_currency_selector{
+    width: 50%;
+}
+
+#header .header-nav .material-icons.expand-more {
+    margin-left: unset;
+}
+
+#_desktop_user_info{
+    width: 30%;
+}
+
+#_desktop_cart {
+    width: 19%;
+    position: relative;
+    right: 0%;
+}
+
+#carousel {
+    width: 99.6vw;
+    height: auto;
+    position: relative;
+    margin-left: calc(-50vw + 50%);
+}
+
+#carousel *{
+    width: auto;
+    height: inherit;
+}
+
+.carousel-control.left{
+    left: 1%;
+}
+
+#footer {
+    background-color: black !important; 
+    color: white;
+}
+
+#footer *{
+    background-color: inherit !important;
+    color: inherit !important;
+}

@@ -1,0 +1,22 @@
+Komendy do wywołania z folderu DEV
+
+sudo docker cp ./configurations/default-ssl.conf prestashop:/etc/apache2/sites-available/default-ssl.conf
+
+sudo docker cp ./configurations/certs/. prestashop:/etc/ssl/certs
+
+sudo docker exec -it prestashop bash
+
+a2enmod ssl
+
+a2ensite default-ssl.conf
+
+service apache2 restart
+
+Komendy do wywołania z folderu DEV/configurations
+
+// export bazy
+sudo docker exec admin-mysql_db mariadb-dump -uroot -pstudent BE_184429 --ignore-table=prestashop.ps_employee_account > dump.sql
+
+// import bazy
+sudo docker exec -i admin-mysql_db mariadb -uroot -pstudent BE_184429 < dump.sql
+
