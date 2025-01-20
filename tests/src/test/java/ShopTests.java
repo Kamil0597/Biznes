@@ -27,7 +27,7 @@ public class ShopTests {
     String street = "ul. test";     //Needed for order test
     String city = "TestCity";       //Needed for order test
     String postCode = "12-345";     //Needed for order test
-    String login = "jannowak@gmail.com";  //Needed for status and invoice download tests
+    String login = "testypresta@gmail.com";  //Needed for invoice download tests
 
 
     @BeforeAll
