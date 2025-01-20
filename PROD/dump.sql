@@ -27,7 +27,7 @@ CREATE TABLE `ps_access` (
   `id_profile` int(10) unsigned NOT NULL,
   `id_authorization_role` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_profile`,`id_authorization_role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -899,7 +899,7 @@ CREATE TABLE `ps_accessory` (
   `id_product_1` int(10) unsigned NOT NULL,
   `id_product_2` int(10) unsigned NOT NULL,
   KEY `accessory_product` (`id_product_1`,`id_product_2`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -950,7 +950,7 @@ CREATE TABLE `ps_address` (
   KEY `id_manufacturer` (`id_manufacturer`),
   KEY `id_supplier` (`id_supplier`),
   KEY `id_warehouse` (`id_warehouse`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -982,7 +982,7 @@ CREATE TABLE `ps_address_format` (
   `id_country` int(10) unsigned NOT NULL,
   `format` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id_country`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1253,7 +1253,7 @@ CREATE TABLE `ps_admin_filter` (
   `filter_id` varchar(191) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `admin_filter_search_id_idx` (`employee`,`shop`,`controller`,`action`,`filter_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1302,7 +1302,7 @@ CREATE TABLE `ps_alias` (
   `active` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_alias`),
   UNIQUE KEY `alias` (`alias`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1331,7 +1331,7 @@ CREATE TABLE `ps_attachment` (
   `file_size` bigint(10) unsigned NOT NULL DEFAULT 0,
   `mime` varchar(128) NOT NULL,
   PRIMARY KEY (`id_attachment`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1356,7 +1356,7 @@ CREATE TABLE `ps_attachment_lang` (
   `name` varchar(32) DEFAULT NULL,
   `description` text DEFAULT NULL,
   PRIMARY KEY (`id_attachment`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1382,7 +1382,7 @@ CREATE TABLE `ps_attribute` (
   `position` int(11) NOT NULL,
   PRIMARY KEY (`id_attribute`),
   KEY `attribute_group` (`id_attribute_group`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1433,7 +1433,7 @@ CREATE TABLE `ps_attribute_group` (
   `group_type` varchar(255) NOT NULL,
   `position` int(11) NOT NULL,
   PRIMARY KEY (`id_attribute_group`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1465,7 +1465,7 @@ CREATE TABLE `ps_attribute_group_lang` (
   PRIMARY KEY (`id_attribute_group`,`id_lang`),
   KEY `IDX_4653726C67A664FB` (`id_attribute_group`),
   KEY `IDX_4653726CBA299860` (`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1499,7 +1499,7 @@ CREATE TABLE `ps_attribute_group_shop` (
   PRIMARY KEY (`id_attribute_group`,`id_shop`),
   KEY `IDX_DB30BAAC67A664FB` (`id_attribute_group`),
   KEY `IDX_DB30BAAC274A50A0` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1531,7 +1531,7 @@ CREATE TABLE `ps_attribute_impact` (
   `price` decimal(20,6) NOT NULL,
   PRIMARY KEY (`id_attribute_impact`),
   UNIQUE KEY `id_product` (`id_product`,`id_attribute`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1557,7 +1557,7 @@ CREATE TABLE `ps_attribute_lang` (
   PRIMARY KEY (`id_attribute`,`id_lang`),
   KEY `IDX_3ABE46A77A4F53DC` (`id_attribute`),
   KEY `IDX_3ABE46A7BA299860` (`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1633,7 +1633,7 @@ CREATE TABLE `ps_attribute_shop` (
   PRIMARY KEY (`id_attribute`,`id_shop`),
   KEY `IDX_A7DD8E677A4F53DC` (`id_attribute`),
   KEY `IDX_A7DD8E67274A50A0` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1683,7 +1683,7 @@ CREATE TABLE `ps_authorization_role` (
   `slug` varchar(191) NOT NULL,
   PRIMARY KEY (`id_authorization_role`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=881 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=881 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2632,7 +2632,7 @@ CREATE TABLE `ps_carrier` (
   KEY `deleted` (`deleted`,`active`),
   KEY `id_tax_rules_group` (`id_tax_rules_group`),
   KEY `reference` (`id_reference`,`deleted`,`active`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2663,7 +2663,7 @@ CREATE TABLE `ps_carrier_group` (
   `id_carrier` int(10) unsigned NOT NULL,
   `id_group` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_carrier`,`id_group`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2710,7 +2710,7 @@ CREATE TABLE `ps_carrier_lang` (
   `id_lang` int(10) unsigned NOT NULL,
   `delay` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id_lang`,`id_shop`,`id_carrier`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2749,7 +2749,7 @@ CREATE TABLE `ps_carrier_shop` (
   `id_shop` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_carrier`,`id_shop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2781,7 +2781,7 @@ CREATE TABLE `ps_carrier_tax_rules_group_shop` (
   `id_tax_rules_group` int(11) unsigned NOT NULL,
   `id_shop` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_carrier`,`id_tax_rules_group`,`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2812,7 +2812,7 @@ CREATE TABLE `ps_carrier_zone` (
   `id_carrier` int(10) unsigned NOT NULL,
   `id_zone` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_carrier`,`id_zone`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2888,7 +2888,7 @@ CREATE TABLE `ps_cart` (
   KEY `id_shop_group` (`id_shop_group`),
   KEY `id_shop_2` (`id_shop`,`date_upd`),
   KEY `id_shop` (`id_shop`,`date_add`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2920,7 +2920,7 @@ CREATE TABLE `ps_cart_cart_rule` (
   `id_cart_rule` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_cart`,`id_cart_rule`),
   KEY `id_cart_rule` (`id_cart_rule`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2951,7 +2951,7 @@ CREATE TABLE `ps_cart_product` (
   PRIMARY KEY (`id_cart`,`id_product`,`id_product_attribute`,`id_customization`,`id_address_delivery`),
   KEY `id_product_attribute` (`id_product_attribute`),
   KEY `id_cart_order` (`id_cart`,`date_add`,`id_product`,`id_product_attribute`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3014,7 +3014,7 @@ CREATE TABLE `ps_cart_rule` (
   KEY `group_restriction_2` (`group_restriction`,`active`,`highlight`,`date_to`),
   KEY `date_from` (`date_from`),
   KEY `date_to` (`date_to`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3037,7 +3037,7 @@ CREATE TABLE `ps_cart_rule_carrier` (
   `id_cart_rule` int(10) unsigned NOT NULL,
   `id_carrier` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_cart_rule`,`id_carrier`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3062,7 +3062,7 @@ CREATE TABLE `ps_cart_rule_combination` (
   PRIMARY KEY (`id_cart_rule_1`,`id_cart_rule_2`),
   KEY `id_cart_rule_1` (`id_cart_rule_1`),
   KEY `id_cart_rule_2` (`id_cart_rule_2`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3085,7 +3085,7 @@ CREATE TABLE `ps_cart_rule_country` (
   `id_cart_rule` int(10) unsigned NOT NULL,
   `id_country` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_cart_rule`,`id_country`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3108,7 +3108,7 @@ CREATE TABLE `ps_cart_rule_group` (
   `id_cart_rule` int(10) unsigned NOT NULL,
   `id_group` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_cart_rule`,`id_group`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3132,7 +3132,7 @@ CREATE TABLE `ps_cart_rule_lang` (
   `id_lang` int(10) unsigned NOT NULL,
   `name` varchar(254) NOT NULL,
   PRIMARY KEY (`id_cart_rule`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3156,7 +3156,7 @@ CREATE TABLE `ps_cart_rule_product_rule` (
   `id_product_rule_group` int(10) unsigned NOT NULL,
   `type` enum('products','categories','attributes','manufacturers','suppliers') NOT NULL,
   PRIMARY KEY (`id_product_rule`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3180,7 +3180,7 @@ CREATE TABLE `ps_cart_rule_product_rule_group` (
   `id_cart_rule` int(10) unsigned NOT NULL,
   `quantity` int(10) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_product_rule_group`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3203,7 +3203,7 @@ CREATE TABLE `ps_cart_rule_product_rule_value` (
   `id_product_rule` int(10) unsigned NOT NULL,
   `id_item` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_product_rule`,`id_item`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3226,7 +3226,7 @@ CREATE TABLE `ps_cart_rule_shop` (
   `id_cart_rule` int(10) unsigned NOT NULL,
   `id_shop` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_cart_rule`,`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3264,7 +3264,7 @@ CREATE TABLE `ps_category` (
   KEY `nright` (`nright`),
   KEY `activenleft` (`active`,`nleft`),
   KEY `activenright` (`active`,`nright`)
-) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3428,7 +3428,7 @@ CREATE TABLE `ps_category_group` (
   PRIMARY KEY (`id_category`,`id_group`),
   KEY `id_category` (`id_category`),
   KEY `id_group` (`id_group`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3872,7 +3872,7 @@ CREATE TABLE `ps_category_lang` (
   `meta_description` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id_category`,`id_shop`,`id_lang`),
   KEY `category_name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4175,7 +4175,7 @@ CREATE TABLE `ps_category_product` (
   PRIMARY KEY (`id_category`,`id_product`),
   KEY `id_product` (`id_product`),
   KEY `id_category` (`id_category`,`position`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5242,7 +5242,7 @@ CREATE TABLE `ps_category_shop` (
   `id_shop` int(11) NOT NULL,
   `position` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_category`,`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5407,7 +5407,7 @@ CREATE TABLE `ps_cms` (
   `active` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `indexation` tinyint(1) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_cms`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5442,7 +5442,7 @@ CREATE TABLE `ps_cms_category` (
   `position` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_cms_category`),
   KEY `category_parent` (`id_parent`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5475,7 +5475,7 @@ CREATE TABLE `ps_cms_category_lang` (
   `meta_description` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id_cms_category`,`id_shop`,`id_lang`),
   KEY `category_name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5502,7 +5502,7 @@ CREATE TABLE `ps_cms_category_shop` (
   `id_shop` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_cms_category`,`id_shop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5534,7 +5534,7 @@ CREATE TABLE `ps_cms_lang` (
   `content` longtext DEFAULT NULL,
   `link_rewrite` varchar(128) NOT NULL,
   PRIMARY KEY (`id_cms`,`id_shop`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5570,7 +5570,7 @@ CREATE TABLE `ps_cms_role` (
   `id_cms` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_cms_role`,`id_cms`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5598,7 +5598,7 @@ CREATE TABLE `ps_cms_role_lang` (
   `id_shop` int(11) unsigned NOT NULL,
   `name` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id_cms_role`,`id_lang`,`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5622,7 +5622,7 @@ CREATE TABLE `ps_cms_shop` (
   `id_shop` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_cms`,`id_shop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5659,7 +5659,7 @@ CREATE TABLE `ps_configuration` (
   KEY `name` (`name`),
   KEY `id_shop` (`id_shop`),
   KEY `id_shop_group` (`id_shop_group`)
-) ENGINE=InnoDB AUTO_INCREMENT=452 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=452 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6133,7 +6133,7 @@ CREATE TABLE `ps_configuration_kpi` (
   KEY `name` (`name`),
   KEY `id_shop` (`id_shop`),
   KEY `id_shop_group` (`id_shop_group`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6223,7 +6223,7 @@ CREATE TABLE `ps_configuration_kpi_lang` (
   `value` text DEFAULT NULL,
   `date_upd` datetime DEFAULT NULL,
   PRIMARY KEY (`id_configuration_kpi`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6253,7 +6253,7 @@ CREATE TABLE `ps_configuration_lang` (
   `value` text DEFAULT NULL,
   `date_upd` datetime DEFAULT NULL,
   PRIMARY KEY (`id_configuration`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6324,7 +6324,7 @@ CREATE TABLE `ps_connections` (
   KEY `id_guest` (`id_guest`),
   KEY `date_add` (`date_add`),
   KEY `id_page` (`id_page`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6363,7 +6363,7 @@ CREATE TABLE `ps_connections_page` (
   `time_start` datetime NOT NULL,
   `time_end` datetime DEFAULT NULL,
   PRIMARY KEY (`id_connections`,`id_page`,`time_start`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6394,7 +6394,7 @@ CREATE TABLE `ps_connections_source` (
   KEY `orderby` (`date_add`),
   KEY `http_referer` (`http_referer`),
   KEY `request_uri` (`request_uri`)
-) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6526,7 +6526,7 @@ CREATE TABLE `ps_contact` (
   `customer_service` tinyint(1) NOT NULL DEFAULT 0,
   `position` tinyint(2) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_contact`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6554,7 +6554,7 @@ CREATE TABLE `ps_contact_lang` (
   `name` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   PRIMARY KEY (`id_contact`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6583,7 +6583,7 @@ CREATE TABLE `ps_contact_shop` (
   `id_shop` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_contact`,`id_shop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6620,7 +6620,7 @@ CREATE TABLE `ps_country` (
   PRIMARY KEY (`id_country`),
   KEY `country_iso_code` (`iso_code`),
   KEY `country_` (`id_zone`)
-) ENGINE=InnoDB AUTO_INCREMENT=242 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=242 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6886,7 +6886,7 @@ CREATE TABLE `ps_country_lang` (
   `id_lang` int(10) unsigned NOT NULL,
   `name` varchar(64) NOT NULL,
   PRIMARY KEY (`id_country`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7393,7 +7393,7 @@ CREATE TABLE `ps_country_shop` (
   `id_shop` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_country`,`id_shop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7667,7 +7667,7 @@ CREATE TABLE `ps_currency` (
   `modified` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_currency`),
   KEY `currency_iso_code` (`iso_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7697,7 +7697,7 @@ CREATE TABLE `ps_currency_lang` (
   `symbol` varchar(255) NOT NULL,
   `pattern` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_currency`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7729,7 +7729,7 @@ CREATE TABLE `ps_currency_shop` (
   `conversion_rate` decimal(13,6) NOT NULL,
   PRIMARY KEY (`id_currency`,`id_shop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7793,7 +7793,7 @@ CREATE TABLE `ps_customer` (
   KEY `id_gender` (`id_gender`),
   KEY `id_shop_group` (`id_shop_group`),
   KEY `id_shop` (`id_shop`,`date_add`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7823,7 +7823,7 @@ CREATE TABLE `ps_customer_group` (
   PRIMARY KEY (`id_customer`,`id_group`),
   KEY `customer_login` (`id_group`),
   KEY `id_customer` (`id_customer`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7862,7 +7862,7 @@ CREATE TABLE `ps_customer_message` (
   PRIMARY KEY (`id_customer_message`),
   KEY `id_customer_thread` (`id_customer_thread`),
   KEY `id_employee` (`id_employee`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7884,7 +7884,7 @@ DROP TABLE IF EXISTS `ps_customer_message_sync_imap`;
 CREATE TABLE `ps_customer_message_sync_imap` (
   `md5_header` varbinary(32) NOT NULL,
   KEY `md5_header_index` (`md5_header`(4))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7908,7 +7908,7 @@ CREATE TABLE `ps_customer_session` (
   `id_customer` int(10) unsigned DEFAULT NULL,
   `token` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`id_customer_session`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7949,7 +7949,7 @@ CREATE TABLE `ps_customer_thread` (
   KEY `id_customer` (`id_customer`),
   KEY `id_order` (`id_order`),
   KEY `id_product` (`id_product`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7981,7 +7981,7 @@ CREATE TABLE `ps_customization` (
   PRIMARY KEY (`id_customization`,`id_cart`,`id_product`,`id_address_delivery`),
   KEY `id_product_attribute` (`id_product_attribute`),
   KEY `id_cart_product` (`id_cart`,`id_product`,`id_product_attribute`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8009,7 +8009,7 @@ CREATE TABLE `ps_customization_field` (
   `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_customization_field`),
   KEY `id_product` (`id_product`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8034,7 +8034,7 @@ CREATE TABLE `ps_customization_field_lang` (
   `id_shop` int(10) unsigned NOT NULL DEFAULT 1,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id_customization_field`,`id_lang`,`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8065,7 +8065,7 @@ CREATE TABLE `ps_customized_data` (
   `price` decimal(20,6) NOT NULL DEFAULT 0.000000,
   `weight` decimal(20,6) NOT NULL DEFAULT 0.000000,
   PRIMARY KEY (`id_customization`,`type`,`index`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8089,7 +8089,7 @@ CREATE TABLE `ps_date_range` (
   `time_start` datetime NOT NULL,
   `time_end` datetime NOT NULL,
   PRIMARY KEY (`id_date_range`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8122,7 +8122,7 @@ CREATE TABLE `ps_delivery` (
   KEY `id_carrier` (`id_carrier`,`id_zone`),
   KEY `id_range_price` (`id_range_price`),
   KEY `id_range_weight` (`id_range_weight`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8254,7 +8254,7 @@ CREATE TABLE `ps_employee` (
   KEY `employee_login` (`email`,`passwd`),
   KEY `id_employee_passwd` (`id_employee`,`passwd`),
   KEY `id_profile` (`id_profile`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8283,7 +8283,7 @@ CREATE TABLE `ps_employee_account` (
   `date_add` datetime NOT NULL,
   `date_upd` datetime NOT NULL,
   PRIMARY KEY (`id_employee_account`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8307,7 +8307,7 @@ CREATE TABLE `ps_employee_session` (
   `id_employee` int(10) unsigned DEFAULT NULL,
   `token` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`id_employee_session`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8335,7 +8335,7 @@ CREATE TABLE `ps_employee_shop` (
   `id_shop` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_employee`,`id_shop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8465,7 +8465,7 @@ CREATE TABLE `ps_fb_category_match` (
   `id_shop` int(11) NOT NULL,
   PRIMARY KEY (`id_category`,`id_shop`),
   KEY `id_category` (`id_category`,`google_category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8488,7 +8488,7 @@ CREATE TABLE `ps_feature` (
   `id_feature` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `position` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_feature`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8520,7 +8520,7 @@ CREATE TABLE `ps_feature_flag` (
   `description_domain` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id_feature_flag`),
   UNIQUE KEY `UNIQ_91700F175E237E06` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8547,7 +8547,7 @@ CREATE TABLE `ps_feature_lang` (
   `name` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id_feature`,`id_lang`),
   KEY `id_lang` (`id_lang`,`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8578,7 +8578,7 @@ CREATE TABLE `ps_feature_product` (
   PRIMARY KEY (`id_feature`,`id_product`,`id_feature_value`),
   KEY `id_feature_value` (`id_feature_value`),
   KEY `id_product` (`id_product`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8602,7 +8602,7 @@ CREATE TABLE `ps_feature_shop` (
   `id_shop` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_feature`,`id_shop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8630,7 +8630,7 @@ CREATE TABLE `ps_feature_value` (
   `custom` tinyint(3) unsigned DEFAULT NULL,
   PRIMARY KEY (`id_feature_value`),
   KEY `feature` (`id_feature`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8665,7 +8665,7 @@ CREATE TABLE `ps_feature_value_lang` (
   `id_lang` int(10) unsigned NOT NULL,
   `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_feature_value`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8766,7 +8766,7 @@ CREATE TABLE `ps_gender` (
   `id_gender` int(11) NOT NULL AUTO_INCREMENT,
   `type` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_gender`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8794,7 +8794,7 @@ CREATE TABLE `ps_gender_lang` (
   `name` varchar(20) NOT NULL,
   PRIMARY KEY (`id_gender`,`id_lang`),
   KEY `id_gender` (`id_gender`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8826,7 +8826,7 @@ CREATE TABLE `ps_group` (
   `date_add` datetime NOT NULL,
   `date_upd` datetime NOT NULL,
   PRIMARY KEY (`id_group`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8854,7 +8854,7 @@ CREATE TABLE `ps_group_lang` (
   `id_lang` int(10) unsigned NOT NULL,
   `name` varchar(32) NOT NULL,
   PRIMARY KEY (`id_group`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8887,7 +8887,7 @@ CREATE TABLE `ps_group_reduction` (
   `reduction` decimal(5,4) NOT NULL,
   PRIMARY KEY (`id_group_reduction`),
   UNIQUE KEY `id_group` (`id_group`,`id_category`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8911,7 +8911,7 @@ CREATE TABLE `ps_group_shop` (
   `id_shop` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_group`,`id_shop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8977,7 +8977,7 @@ CREATE TABLE `ps_guest` (
   KEY `id_customer` (`id_customer`),
   KEY `id_operating_system` (`id_operating_system`),
   KEY `id_web_browser` (`id_web_browser`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9105,7 +9105,7 @@ CREATE TABLE `ps_hook` (
   `position` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_hook`),
   UNIQUE KEY `hook_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=803 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=803 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9930,7 +9930,7 @@ CREATE TABLE `ps_hook_alias` (
   `name` varchar(191) NOT NULL,
   PRIMARY KEY (`id_hook_alias`),
   UNIQUE KEY `alias` (`alias`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10047,7 +10047,7 @@ CREATE TABLE `ps_hook_module` (
   KEY `id_hook` (`id_hook`),
   KEY `id_module` (`id_module`),
   KEY `position` (`id_shop`,`position`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10366,7 +10366,7 @@ CREATE TABLE `ps_hook_module_exceptions` (
   PRIMARY KEY (`id_hook_module_exceptions`),
   KEY `id_module` (`id_module`),
   KEY `id_hook` (`id_hook`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10394,7 +10394,7 @@ CREATE TABLE `ps_image` (
   UNIQUE KEY `id_product_cover` (`id_product`,`cover`),
   UNIQUE KEY `idx_product_image` (`id_image`,`id_product`,`cover`),
   KEY `image_product` (`id_product`)
-) ENGINE=InnoDB AUTO_INCREMENT=1039 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=1039 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11457,7 +11457,7 @@ CREATE TABLE `ps_image_lang` (
   `legend` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id_image`,`id_lang`),
   KEY `id_image` (`id_image`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13559,7 +13559,7 @@ CREATE TABLE `ps_image_shop` (
   PRIMARY KEY (`id_image`,`id_shop`),
   UNIQUE KEY `id_product` (`id_product`,`id_shop`,`cover`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -14628,7 +14628,7 @@ CREATE TABLE `ps_image_type` (
   `stores` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_image_type`),
   KEY `image_type_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -14661,7 +14661,7 @@ CREATE TABLE `ps_import_match` (
   `match` text NOT NULL,
   `skip` int(2) NOT NULL,
   PRIMARY KEY (`id_import_match`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -14768,7 +14768,7 @@ CREATE TABLE `ps_lang` (
   `date_format_full` varchar(32) NOT NULL,
   `is_rtl` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_lang`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -14796,7 +14796,7 @@ CREATE TABLE `ps_lang_shop` (
   PRIMARY KEY (`id_lang`,`id_shop`),
   KEY `IDX_2F43BFC7BA299860` (`id_lang`),
   KEY `IDX_2F43BFC7274A50A0` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -16337,7 +16337,7 @@ CREATE TABLE `ps_linksmenutop` (
   `new_window` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_linksmenutop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -16363,7 +16363,7 @@ CREATE TABLE `ps_linksmenutop_lang` (
   `label` varchar(128) NOT NULL,
   `link` varchar(128) NOT NULL,
   KEY `id_linksmenutop` (`id_linksmenutop`,`id_lang`,`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -16397,7 +16397,7 @@ CREATE TABLE `ps_log` (
   `date_add` datetime NOT NULL,
   `date_upd` datetime NOT NULL,
   PRIMARY KEY (`id_log`)
-) ENGINE=InnoDB AUTO_INCREMENT=533 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=533 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -16958,7 +16958,7 @@ CREATE TABLE `ps_mail` (
   `date_add` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id_mail`),
   KEY `recipient` (`recipient`(10))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -16984,7 +16984,7 @@ CREATE TABLE `ps_manufacturer` (
   `date_upd` datetime NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_manufacturer`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -17015,7 +17015,7 @@ CREATE TABLE `ps_manufacturer_lang` (
   `meta_keywords` varchar(255) DEFAULT NULL,
   `meta_description` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id_manufacturer`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -17044,7 +17044,7 @@ CREATE TABLE `ps_manufacturer_shop` (
   `id_shop` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_manufacturer`,`id_shop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -17072,7 +17072,7 @@ CREATE TABLE `ps_memcached_servers` (
   `port` int(11) unsigned NOT NULL,
   `weight` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_memcached_server`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -17105,7 +17105,7 @@ CREATE TABLE `ps_message` (
   KEY `id_cart` (`id_cart`),
   KEY `id_customer` (`id_customer`),
   KEY `id_employee` (`id_employee`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -17129,7 +17129,7 @@ CREATE TABLE `ps_message_readed` (
   `id_employee` int(10) unsigned NOT NULL,
   `date_add` datetime NOT NULL,
   PRIMARY KEY (`id_message`,`id_employee`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -17154,7 +17154,7 @@ CREATE TABLE `ps_meta` (
   `configurable` tinyint(1) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_meta`),
   UNIQUE KEY `page` (`page`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -17226,7 +17226,7 @@ CREATE TABLE `ps_meta_lang` (
   PRIMARY KEY (`id_meta`,`id_shop`,`id_lang`),
   KEY `id_shop` (`id_shop`),
   KEY `id_lang` (`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -17320,7 +17320,7 @@ CREATE TABLE `ps_module` (
   PRIMARY KEY (`id_module`),
   UNIQUE KEY `name_UNIQUE` (`name`),
   KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -17409,7 +17409,7 @@ CREATE TABLE `ps_module_access` (
   `id_profile` int(10) unsigned NOT NULL,
   `id_authorization_role` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_profile`,`id_authorization_role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -17694,7 +17694,7 @@ CREATE TABLE `ps_module_carrier` (
   `id_shop` int(11) unsigned NOT NULL DEFAULT 1,
   `id_reference` int(11) NOT NULL,
   PRIMARY KEY (`id_module`,`id_shop`,`id_reference`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -17723,7 +17723,7 @@ CREATE TABLE `ps_module_country` (
   `id_shop` int(11) unsigned NOT NULL DEFAULT 1,
   `id_country` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_module`,`id_shop`,`id_country`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -17751,7 +17751,7 @@ CREATE TABLE `ps_module_currency` (
   `id_currency` int(11) NOT NULL,
   PRIMARY KEY (`id_module`,`id_shop`,`id_currency`),
   KEY `id_module` (`id_module`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -17778,7 +17778,7 @@ CREATE TABLE `ps_module_group` (
   `id_shop` int(11) unsigned NOT NULL DEFAULT 1,
   `id_group` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_module`,`id_shop`,`id_group`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -17994,7 +17994,7 @@ CREATE TABLE `ps_module_history` (
   `date_add` datetime NOT NULL,
   `date_upd` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18024,7 +18024,7 @@ CREATE TABLE `ps_module_preference` (
   `favorite` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id_module_preference`),
   UNIQUE KEY `employee_module` (`id_employee`,`module`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18049,7 +18049,7 @@ CREATE TABLE `ps_module_shop` (
   `enable_device` tinyint(1) NOT NULL DEFAULT 7,
   PRIMARY KEY (`id_module`,`id_shop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18138,7 +18138,7 @@ CREATE TABLE `ps_operating_system` (
   `id_operating_system` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id_operating_system`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18181,7 +18181,7 @@ CREATE TABLE `ps_order_carrier` (
   KEY `id_order` (`id_order`),
   KEY `id_carrier` (`id_carrier`),
   KEY `id_order_invoice` (`id_order_invoice`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18221,7 +18221,7 @@ CREATE TABLE `ps_order_cart_rule` (
   PRIMARY KEY (`id_order_cart_rule`),
   KEY `id_order` (`id_order`),
   KEY `id_cart_rule` (`id_cart_rule`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18296,7 +18296,7 @@ CREATE TABLE `ps_order_detail` (
   KEY `product_attribute_id` (`product_attribute_id`),
   KEY `id_tax_rules_group` (`id_tax_rules_group`),
   KEY `id_order_id_order_detail` (`id_order`,`id_order_detail`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18332,7 +18332,7 @@ CREATE TABLE `ps_order_detail_tax` (
   `total_amount` decimal(16,6) NOT NULL DEFAULT 0.000000,
   KEY `id_order_detail` (`id_order_detail`),
   KEY `id_tax` (`id_tax`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18364,7 +18364,7 @@ CREATE TABLE `ps_order_history` (
   KEY `order_history_order` (`id_order`),
   KEY `id_employee` (`id_employee`),
   KEY `id_order_state` (`id_order_state`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18417,7 +18417,7 @@ CREATE TABLE `ps_order_invoice` (
   `date_add` datetime NOT NULL,
   PRIMARY KEY (`id_order_invoice`),
   KEY `id_order` (`id_order`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18446,7 +18446,7 @@ CREATE TABLE `ps_order_invoice_payment` (
   PRIMARY KEY (`id_order_invoice`,`id_order_payment`),
   KEY `order_payment` (`id_order_payment`),
   KEY `id_order` (`id_order`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18474,7 +18474,7 @@ CREATE TABLE `ps_order_invoice_tax` (
   `id_tax` int(11) NOT NULL,
   `amount` decimal(10,6) NOT NULL DEFAULT 0.000000,
   KEY `id_tax` (`id_tax`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18497,7 +18497,7 @@ CREATE TABLE `ps_order_message` (
   `id_order_message` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `date_add` datetime NOT NULL,
   PRIMARY KEY (`id_order_message`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18524,7 +18524,7 @@ CREATE TABLE `ps_order_message_lang` (
   `name` varchar(128) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id_order_message`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18561,7 +18561,7 @@ CREATE TABLE `ps_order_payment` (
   `date_add` datetime NOT NULL,
   PRIMARY KEY (`id_order_payment`),
   KEY `order_reference` (`order_reference`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18594,7 +18594,7 @@ CREATE TABLE `ps_order_return` (
   PRIMARY KEY (`id_order_return`),
   KEY `order_return_customer` (`id_customer`),
   KEY `id_order` (`id_order`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18619,7 +18619,7 @@ CREATE TABLE `ps_order_return_detail` (
   `id_customization` int(10) unsigned NOT NULL DEFAULT 0,
   `product_quantity` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_order_return`,`id_order_detail`,`id_customization`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18642,7 +18642,7 @@ CREATE TABLE `ps_order_return_state` (
   `id_order_return_state` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `color` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id_order_return_state`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18672,7 +18672,7 @@ CREATE TABLE `ps_order_return_state_lang` (
   `id_lang` int(10) unsigned NOT NULL,
   `name` varchar(64) NOT NULL,
   PRIMARY KEY (`id_order_return_state`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18721,7 +18721,7 @@ CREATE TABLE `ps_order_slip` (
   PRIMARY KEY (`id_order_slip`),
   KEY `order_slip_customer` (`id_customer`),
   KEY `id_order` (`id_order`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18751,7 +18751,7 @@ CREATE TABLE `ps_order_slip_detail` (
   `amount_tax_excl` decimal(20,6) DEFAULT NULL,
   `amount_tax_incl` decimal(20,6) DEFAULT NULL,
   PRIMARY KEY (`id_order_slip`,`id_order_detail`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18787,7 +18787,7 @@ CREATE TABLE `ps_order_state` (
   `deleted` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_order_state`),
   KEY `module_name` (`module_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18830,7 +18830,7 @@ CREATE TABLE `ps_order_state_lang` (
   `name` varchar(64) NOT NULL,
   `template` varchar(64) NOT NULL,
   PRIMARY KEY (`id_order_state`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18946,7 +18946,7 @@ CREATE TABLE `ps_orders` (
   KEY `current_state` (`current_state`),
   KEY `id_shop` (`id_shop`),
   KEY `date_add` (`date_add`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -18980,7 +18980,7 @@ CREATE TABLE `ps_pack` (
   `quantity` int(10) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_product_pack`,`id_product_item`,`id_product_attribute_item`),
   KEY `product_item` (`id_product_item`,`id_product_attribute_item`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -19006,7 +19006,7 @@ CREATE TABLE `ps_page` (
   PRIMARY KEY (`id_page`),
   KEY `id_page_type` (`id_page_type`),
   KEY `id_object` (`id_object`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -19033,7 +19033,7 @@ CREATE TABLE `ps_page_type` (
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id_page_type`),
   KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -19062,7 +19062,7 @@ CREATE TABLE `ps_page_viewed` (
   `id_date_range` int(10) unsigned NOT NULL,
   `counter` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_page`,`id_date_range`,`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -19174,7 +19174,7 @@ CREATE TABLE `ps_product` (
   KEY `indexed` (`indexed`),
   KEY `date_add` (`date_add`),
   KEY `state` (`state`,`date_upd`)
-) ENGINE=InnoDB AUTO_INCREMENT=1069 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=1069 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -20236,7 +20236,7 @@ CREATE TABLE `ps_product_attachment` (
   `id_product` int(10) unsigned NOT NULL,
   `id_attachment` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_product`,`id_attachment`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -20282,7 +20282,7 @@ CREATE TABLE `ps_product_attribute` (
   KEY `reference` (`reference`),
   KEY `supplier_reference` (`supplier_reference`),
   KEY `id_product_id_product_attribute` (`id_product_attribute`,`id_product`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -20306,7 +20306,7 @@ CREATE TABLE `ps_product_attribute_combination` (
   `id_product_attribute` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_attribute`,`id_product_attribute`),
   KEY `id_product_attribute` (`id_product_attribute`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -20330,7 +20330,7 @@ CREATE TABLE `ps_product_attribute_image` (
   `id_image` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_product_attribute`,`id_image`),
   KEY `id_image` (`id_image`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -20365,7 +20365,7 @@ CREATE TABLE `ps_product_attribute_shop` (
   `available_date` date DEFAULT NULL,
   PRIMARY KEY (`id_product_attribute`,`id_shop`),
   UNIQUE KEY `id_product` (`id_product`,`id_shop`,`default_on`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -20389,7 +20389,7 @@ CREATE TABLE `ps_product_carrier` (
   `id_carrier_reference` int(10) unsigned NOT NULL,
   `id_shop` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_product`,`id_carrier_reference`,`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -20621,7 +20621,7 @@ CREATE TABLE `ps_product_country_tax` (
   `id_country` int(11) NOT NULL,
   `id_tax` int(11) NOT NULL,
   PRIMARY KEY (`id_product`,`id_country`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -20652,7 +20652,7 @@ CREATE TABLE `ps_product_download` (
   `active` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `is_shareable` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_product_download`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -20676,7 +20676,7 @@ CREATE TABLE `ps_product_group_reduction_cache` (
   `id_group` int(10) unsigned NOT NULL,
   `reduction` decimal(5,4) NOT NULL,
   PRIMARY KEY (`id_product`,`id_group`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -20713,7 +20713,7 @@ CREATE TABLE `ps_product_lang` (
   PRIMARY KEY (`id_product`,`id_shop`,`id_lang`),
   KEY `id_lang` (`id_lang`),
   KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -22817,7 +22817,7 @@ CREATE TABLE `ps_product_sale` (
   `date_upd` date DEFAULT NULL,
   PRIMARY KEY (`id_product`),
   KEY `quantity` (`quantity`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -22877,7 +22877,7 @@ CREATE TABLE `ps_product_shop` (
   KEY `id_category_default` (`id_category_default`),
   KEY `date_add` (`date_add`,`active`,`visibility`),
   KEY `indexed` (`indexed`,`active`,`id_product`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -23946,7 +23946,7 @@ CREATE TABLE `ps_product_supplier` (
   PRIMARY KEY (`id_product_supplier`),
   UNIQUE KEY `id_product` (`id_product`,`id_product_attribute`,`id_supplier`),
   KEY `id_supplier` (`id_supplier`,`id_product`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -23972,7 +23972,7 @@ CREATE TABLE `ps_product_tag` (
   PRIMARY KEY (`id_product`,`id_tag`),
   KEY `id_tag` (`id_tag`),
   KEY `id_lang` (`id_lang`,`id_tag`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -23994,7 +23994,7 @@ DROP TABLE IF EXISTS `ps_profile`;
 CREATE TABLE `ps_profile` (
   `id_profile` int(10) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id_profile`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -24023,7 +24023,7 @@ CREATE TABLE `ps_profile_lang` (
   `id_profile` int(10) unsigned NOT NULL,
   `name` varchar(128) NOT NULL,
   PRIMARY KEY (`id_profile`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -24502,7 +24502,7 @@ CREATE TABLE `ps_quick_access` (
   `new_window` tinyint(1) NOT NULL DEFAULT 0,
   `link` varchar(255) NOT NULL,
   PRIMARY KEY (`id_quick_access`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -24533,7 +24533,7 @@ CREATE TABLE `ps_quick_access_lang` (
   `id_lang` int(10) unsigned NOT NULL,
   `name` varchar(32) NOT NULL,
   PRIMARY KEY (`id_quick_access`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -24572,7 +24572,7 @@ CREATE TABLE `ps_range_price` (
   `delimiter2` decimal(20,6) NOT NULL,
   PRIMARY KEY (`id_range_price`),
   UNIQUE KEY `id_carrier` (`id_carrier`,`delimiter1`,`delimiter2`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -24607,7 +24607,7 @@ CREATE TABLE `ps_range_weight` (
   `delimiter2` decimal(20,6) NOT NULL,
   PRIMARY KEY (`id_range_weight`),
   UNIQUE KEY `id_carrier` (`id_carrier`,`delimiter1`,`delimiter2`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -24648,7 +24648,7 @@ CREATE TABLE `ps_referrer` (
   `click_fee` decimal(5,2) NOT NULL DEFAULT 0.00,
   `date_add` datetime NOT NULL,
   PRIMARY KEY (`id_referrer`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -24671,7 +24671,7 @@ CREATE TABLE `ps_referrer_cache` (
   `id_connections_source` int(11) unsigned NOT NULL,
   `id_referrer` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_connections_source`,`id_referrer`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -24702,7 +24702,7 @@ CREATE TABLE `ps_referrer_shop` (
   `cache_reg_rate` decimal(5,4) DEFAULT NULL,
   `cache_order_rate` decimal(5,4) DEFAULT NULL,
   PRIMARY KEY (`id_referrer`,`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -24726,7 +24726,7 @@ CREATE TABLE `ps_request_sql` (
   `name` varchar(200) NOT NULL,
   `sql` text NOT NULL,
   PRIMARY KEY (`id_request_sql`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -24751,7 +24751,7 @@ CREATE TABLE `ps_required_field` (
   `field_name` varchar(32) NOT NULL,
   PRIMARY KEY (`id_required_field`),
   KEY `object_name` (`object_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -24775,7 +24775,7 @@ CREATE TABLE `ps_risk` (
   `percent` tinyint(3) NOT NULL,
   `color` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id_risk`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -24805,7 +24805,7 @@ CREATE TABLE `ps_risk_lang` (
   `name` varchar(20) NOT NULL,
   PRIMARY KEY (`id_risk`,`id_lang`),
   KEY `id_risk` (`id_risk`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -24838,7 +24838,7 @@ CREATE TABLE `ps_search_engine` (
   `server` varchar(64) NOT NULL,
   `getvar` varchar(16) NOT NULL,
   PRIMARY KEY (`id_search_engine`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -24902,7 +24902,7 @@ CREATE TABLE `ps_search_index` (
   `weight` smallint(4) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_word`,`id_product`),
   KEY `id_product` (`id_product`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -26467,7 +26467,7 @@ CREATE TABLE `ps_search_word` (
   `word` varchar(30) NOT NULL,
   PRIMARY KEY (`id_word`),
   UNIQUE KEY `id_lang` (`id_lang`,`id_shop`,`word`)
-) ENGINE=InnoDB AUTO_INCREMENT=1539 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=1539 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -27065,7 +27065,7 @@ CREATE TABLE `ps_shop` (
   `deleted` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_shop`),
   KEY `IDX_CBDFBB9EF5C9E40` (`id_shop_group`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -27096,7 +27096,7 @@ CREATE TABLE `ps_shop_group` (
   `active` tinyint(1) NOT NULL,
   `deleted` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_shop_group`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -27128,7 +27128,7 @@ CREATE TABLE `ps_shop_url` (
   `active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_shop_url`),
   KEY `IDX_279F19DA274A50A0` (`id_shop`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -27159,7 +27159,7 @@ CREATE TABLE `ps_smarty_cache` (
   KEY `name` (`name`),
   KEY `cache_id` (`cache_id`),
   KEY `modified` (`modified`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -27182,7 +27182,7 @@ CREATE TABLE `ps_smarty_last_flush` (
   `type` enum('compile','template') NOT NULL,
   `last_flush` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -27208,7 +27208,7 @@ CREATE TABLE `ps_smarty_lazy_cache` (
   `filepath` varchar(255) NOT NULL DEFAULT '',
   `last_update` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`template_hash`,`cache_id`,`compile_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -27257,7 +27257,7 @@ CREATE TABLE `ps_specific_price` (
   KEY `id_customer` (`id_customer`),
   KEY `from` (`from`),
   KEY `to` (`to`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -27282,7 +27282,7 @@ CREATE TABLE `ps_specific_price_priority` (
   `priority` varchar(80) NOT NULL,
   PRIMARY KEY (`id_specific_price_priority`,`id_product`),
   UNIQUE KEY `id_product` (`id_product`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -27322,7 +27322,7 @@ CREATE TABLE `ps_specific_price_rule` (
   `to` datetime NOT NULL,
   PRIMARY KEY (`id_specific_price_rule`),
   KEY `id_product` (`id_shop`,`id_currency`,`id_country`,`id_group`,`from_quantity`,`from`,`to`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -27348,7 +27348,7 @@ CREATE TABLE `ps_specific_price_rule_condition` (
   `value` varchar(255) NOT NULL,
   PRIMARY KEY (`id_specific_price_rule_condition`),
   KEY `id_specific_price_rule_condition_group` (`id_specific_price_rule_condition_group`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -27371,7 +27371,7 @@ CREATE TABLE `ps_specific_price_rule_condition_group` (
   `id_specific_price_rule_condition_group` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `id_specific_price_rule` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_specific_price_rule_condition_group`,`id_specific_price_rule`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -27402,7 +27402,7 @@ CREATE TABLE `ps_state` (
   KEY `id_country` (`id_country`),
   KEY `name` (`name`),
   KEY `id_zone` (`id_zone`)
-) ENGINE=InnoDB AUTO_INCREMENT=353 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=353 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -27818,7 +27818,7 @@ CREATE TABLE `ps_stock` (
   KEY `id_warehouse` (`id_warehouse`),
   KEY `id_product` (`id_product`),
   KEY `id_product_attribute` (`id_product_attribute`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -27855,7 +27855,7 @@ CREATE TABLE `ps_stock_available` (
   KEY `id_shop_group` (`id_shop_group`),
   KEY `id_product` (`id_product`),
   KEY `id_product_attribute` (`id_product_attribute`)
-) ENGINE=InnoDB AUTO_INCREMENT=1039 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=1039 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -28932,7 +28932,7 @@ CREATE TABLE `ps_stock_mvt` (
   PRIMARY KEY (`id_stock_mvt`),
   KEY `id_stock` (`id_stock`),
   KEY `id_stock_mvt_reason` (`id_stock_mvt_reason`)
-) ENGINE=InnoDB AUTO_INCREMENT=1040 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=1040 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -29998,7 +29998,7 @@ CREATE TABLE `ps_stock_mvt_reason` (
   `date_upd` datetime NOT NULL,
   `deleted` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_stock_mvt_reason`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -30035,7 +30035,7 @@ CREATE TABLE `ps_stock_mvt_reason_lang` (
   `id_lang` int(11) unsigned NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_uca1400_ai_ci NOT NULL,
   PRIMARY KEY (`id_stock_mvt_reason`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -30094,7 +30094,7 @@ CREATE TABLE `ps_store` (
   `date_add` datetime NOT NULL,
   `date_upd` datetime NOT NULL,
   PRIMARY KEY (`id_store`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -30128,7 +30128,7 @@ CREATE TABLE `ps_store_lang` (
   `hours` text DEFAULT NULL,
   `note` text DEFAULT NULL,
   PRIMARY KEY (`id_store`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -30163,7 +30163,7 @@ CREATE TABLE `ps_store_shop` (
   `id_shop` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_store`,`id_shop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -30195,7 +30195,7 @@ CREATE TABLE `ps_supplier` (
   `date_upd` datetime NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_supplier`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -30225,7 +30225,7 @@ CREATE TABLE `ps_supplier_lang` (
   `meta_keywords` varchar(255) DEFAULT NULL,
   `meta_description` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id_supplier`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -30254,7 +30254,7 @@ CREATE TABLE `ps_supplier_shop` (
   `id_shop` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_supplier`,`id_shop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -30300,7 +30300,7 @@ CREATE TABLE `ps_supply_order` (
   KEY `id_supplier` (`id_supplier`),
   KEY `id_warehouse` (`id_warehouse`),
   KEY `reference` (`reference`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -30349,7 +30349,7 @@ CREATE TABLE `ps_supply_order_detail` (
   KEY `id_supply_order` (`id_supply_order`,`id_product`),
   KEY `id_product_attribute` (`id_product_attribute`),
   KEY `id_product_product_attribute` (`id_product`,`id_product_attribute`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -30380,7 +30380,7 @@ CREATE TABLE `ps_supply_order_history` (
   KEY `id_supply_order` (`id_supply_order`),
   KEY `id_employee` (`id_employee`),
   KEY `id_state` (`id_state`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -30411,7 +30411,7 @@ CREATE TABLE `ps_supply_order_receipt_history` (
   PRIMARY KEY (`id_supply_order_receipt_history`),
   KEY `id_supply_order_detail` (`id_supply_order_detail`),
   KEY `id_supply_order_state` (`id_supply_order_state`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -30439,7 +30439,7 @@ CREATE TABLE `ps_supply_order_state` (
   `enclosed` tinyint(1) NOT NULL DEFAULT 0,
   `color` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id_supply_order_state`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -30470,7 +30470,7 @@ CREATE TABLE `ps_supply_order_state_lang` (
   `id_lang` int(11) unsigned NOT NULL,
   `name` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id_supply_order_state`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -30516,7 +30516,7 @@ CREATE TABLE `ps_tab` (
   `wording` varchar(255) DEFAULT NULL,
   `wording_domain` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_tab`)
-) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -30700,7 +30700,7 @@ CREATE TABLE `ps_tab_lang` (
   PRIMARY KEY (`id_tab`,`id_lang`),
   KEY `IDX_CFD9262DED47AB56` (`id_tab`),
   KEY `IDX_CFD9262DBA299860` (`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -31033,7 +31033,7 @@ CREATE TABLE `ps_tab_module_preference` (
   `module` varchar(191) NOT NULL,
   PRIMARY KEY (`id_tab_module_preference`),
   UNIQUE KEY `employee_module` (`id_employee`,`id_tab`,`module`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -31059,7 +31059,7 @@ CREATE TABLE `ps_tag` (
   PRIMARY KEY (`id_tag`),
   KEY `tag_name` (`name`),
   KEY `id_lang` (`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -31086,7 +31086,7 @@ CREATE TABLE `ps_tag_count` (
   `counter` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_group`,`id_tag`),
   KEY `id_group` (`id_group`,`id_lang`,`id_shop`,`counter`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -31111,7 +31111,7 @@ CREATE TABLE `ps_tax` (
   `active` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `deleted` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_tax`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -31168,7 +31168,7 @@ CREATE TABLE `ps_tax_lang` (
   `id_lang` int(10) unsigned NOT NULL,
   `name` varchar(32) NOT NULL,
   PRIMARY KEY (`id_tax`,`id_lang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -31266,7 +31266,7 @@ CREATE TABLE `ps_tax_rule` (
   KEY `id_tax_rules_group` (`id_tax_rules_group`),
   KEY `id_tax` (`id_tax`),
   KEY `category_getproducts` (`id_tax_rules_group`,`id_country`,`id_state`,`zipcode_from`)
-) ENGINE=InnoDB AUTO_INCREMENT=144 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=144 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -31437,7 +31437,7 @@ CREATE TABLE `ps_tax_rules_group` (
   `date_add` datetime NOT NULL,
   `date_upd` datetime NOT NULL,
   PRIMARY KEY (`id_tax_rules_group`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -31467,7 +31467,7 @@ CREATE TABLE `ps_tax_rules_group_shop` (
   `id_shop` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_tax_rules_group`,`id_shop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -31496,7 +31496,7 @@ CREATE TABLE `ps_timezone` (
   `id_timezone` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
   PRIMARY KEY (`id_timezone`)
-) ENGINE=InnoDB AUTO_INCREMENT=561 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=561 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -32086,7 +32086,7 @@ CREATE TABLE `ps_translation` (
   PRIMARY KEY (`id_translation`),
   KEY `IDX_ADEBEB36BA299860` (`id_lang`),
   KEY `key` (`domain`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -32115,7 +32115,7 @@ CREATE TABLE `ps_warehouse` (
   `management_type` enum('WA','FIFO','LIFO') NOT NULL DEFAULT 'WA',
   `deleted` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_warehouse`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -32140,7 +32140,7 @@ CREATE TABLE `ps_warehouse_carrier` (
   PRIMARY KEY (`id_warehouse`,`id_carrier`),
   KEY `id_warehouse` (`id_warehouse`),
   KEY `id_carrier` (`id_carrier`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -32167,7 +32167,7 @@ CREATE TABLE `ps_warehouse_product_location` (
   `location` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id_warehouse_product_location`),
   UNIQUE KEY `id_product` (`id_product`,`id_product_attribute`,`id_warehouse`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -32192,7 +32192,7 @@ CREATE TABLE `ps_warehouse_shop` (
   PRIMARY KEY (`id_warehouse`,`id_shop`),
   KEY `id_warehouse` (`id_warehouse`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -32215,7 +32215,7 @@ CREATE TABLE `ps_web_browser` (
   `id_web_browser` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id_web_browser`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -32256,7 +32256,7 @@ CREATE TABLE `ps_webservice_account` (
   `active` tinyint(2) NOT NULL,
   PRIMARY KEY (`id_webservice_account`),
   KEY `key` (`key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -32280,7 +32280,7 @@ CREATE TABLE `ps_webservice_account_shop` (
   `id_shop` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_webservice_account`,`id_shop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -32309,7 +32309,7 @@ CREATE TABLE `ps_webservice_permission` (
   KEY `resource` (`resource`),
   KEY `method` (`method`),
   KEY `id_webservice_account` (`id_webservice_account`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -32417,7 +32417,7 @@ CREATE TABLE `ps_zone` (
   `name` varchar(64) NOT NULL,
   `active` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_zone`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -32450,7 +32450,7 @@ CREATE TABLE `ps_zone_shop` (
   `id_shop` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id_zone`,`id_shop`),
   KEY `id_shop` (`id_shop`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
